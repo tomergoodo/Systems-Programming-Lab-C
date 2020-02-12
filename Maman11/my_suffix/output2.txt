@@ -1,0 +1,10 @@
+please enter Character and a String with a space between => 
+abbaaba
+aaba
+aba
+a
+number of suffixes is: 4
+please enter Character and a String with a space between => 
+o World
+orld
+number of suffixes is: 2

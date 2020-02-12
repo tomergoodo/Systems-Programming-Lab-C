@@ -1,0 +1,10 @@
+please enter a positive number => 
+the number is: 01100100
+please enter a positive number => 
+the number is: 0
+please enter a positive number => 
+the number is: 011111111111111111111111111111111
+please enter a positive number => 
+the number is: 010000000000000000000000000000000
+please enter a positive number => 
+the number is: 010000

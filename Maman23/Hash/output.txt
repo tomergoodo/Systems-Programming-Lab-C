@@ -1,0 +1,4 @@
+0 appers in file input2.txt - 1 time
+1 appers in file input.txt - 1 time, file input2.txt - 2 time
+6 appers in file input.txt - 2 time, file input2.txt - 1 time
+28 appers in file input2.txt - 1 time
