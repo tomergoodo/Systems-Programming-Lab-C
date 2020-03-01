@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a7d3f2e9-7aa6-4c8f-a3cc-5fd5c99e0333" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Maman22/.idea/Maman22.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Maman22/my_set/.idea/my_set.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Maman23/.idea/Maman23.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Maman22/my_set/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Maman22/my_set/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Maman22/my_set/set.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Maman22/my_set/set.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\Tomer Goodovitch\Desktop\Systems-Programming-Lab-C\Project\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YQpG7Xrc1IfCJUpniW0SgZIHrS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a7d3f2e9-7aa6-4c8f-a3cc-5fd5c99e0333" name="Default Changelist" comment="" />
+      <created>1582884574133</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582884574133</updated>
+      <workItem from="1582884579296" duration="794000" />
+      <workItem from="1582923711480" duration="3606000" />
+      <workItem from="1582996829690" duration="39000" />
+      <workItem from="1583000320657" duration="767000" />
+      <workItem from="1583058070019" duration="670000" />
+      <workItem from="1583059901878" duration="939000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="77" key="#New_File_Extensions" timestamp="1582923743613">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="361" y="77" key="#New_File_Extensions/0.0.1536.834@0.0.1536.834" timestamp="1582923743613" />
+    <state x="549" y="172" key="FileChooserDialogImpl" timestamp="1583060647021">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="549" y="172" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1583060647021" />
+    <state x="465" y="243" key="com.intellij.ide.util.TipDialog" timestamp="1583059902577">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="465" y="243" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1583059902577" />
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1582964896127">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1582964896127" />
+  </component>
+</project>

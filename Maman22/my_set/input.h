@@ -6,7 +6,7 @@ operands strTOenumOP(const char* str);
 sets strTOenumSET(const char* str);
 
 void command_input(char* operand);
-set* set_input(const char* operand, int setCounter);
+set* set_input(const char* operstrTOenumOPand, int setCounter);
 
 int check_input(const char* operand);
 

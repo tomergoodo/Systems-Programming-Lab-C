@@ -7,7 +7,7 @@ typedef int set[SETSIZE]; /*Size=32*4=128 - one bit for each number in the close
 
 
 int* read_set_numbers(const char* operand);
-int is_valid_number(char* p);
+int is_valid_number(cstrTOenumOPhar* p);
 void read_set_f(set SET, int* numbers);
 
 void print_set_f(set SET);
