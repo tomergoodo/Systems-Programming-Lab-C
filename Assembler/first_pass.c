@@ -209,45 +209,73 @@ int is_label(char * token, int colon){
 
 
 void handle_operation(char* operation){
-    char* token;
-    copy_token(operation,token);
-    switch(find_operation(token)){
+    char command[MAX_LINE];
+    int number_of_operators;
+    char first_op[20],second_op[20];
+
+    copy_token(operation,command); //get command
+    operation = next_token(operation); //operation -> first operator
+
+    number_of_operators = number_of_operators(find_operation(command));
+
+    if(number_of_operators){
+        copy_token(operation,first_op);
+        number_of_operators--;
+    }else if(!end_of_line(operation)){
+        error = TOO_MANY_OPERANDS_ERROR;
+        return;
+    }
+
+    operation = next_token(operation); //operation -> comma
+
+    if(*operation != ',' && !end_of_line(operation)){
+        error = MISSING_COMMA_OPERATION;
+        return;
+    }
+
+    operation = next_token(operation); //operation -> second operator
+
+    if(number_of_operators){
+        copy_token(operation, second_op);
+        number_of_operators--;
+    }else if(!end_of_line(operation)){
+        error = TOO_MANY_OPERANDS_ERROR;
+        return;
+    }
+
+    ic += calculate_additional_words(find_operation(command), first_op, second_op);
+}
+
+int calculate_additional_words(operations type, char *first_op, char *second_op){
+    return 0;
+}
+
+int number_of_operators(operations type){
+    switch(type){
         case MOV:
-            break;
         case CMP:
-            break;
         case ADD:
-            break;
         case SUB:
-            break;
         case LEA:
-            break;
+            return 2;
         case CLR:
-            break;
         case NOT:
-            break;
         case INC:
-            break;
         case DEC:
-            break;
         case JMP:
-            break;
         case BNE:
-            break;
         case RED:
-            break;
         case PRN:
-            break;
         case JSR:
-            break;
         case RTS:
-            break;
+            return 1;
         case STOP:
-            break;
+            return 0;
         case UNKNOWN_COMMAND:
             error = COMMAND_NOT_FOUND;
-            break;
+            return 0;
     }
+    return 0;
 }
 
 

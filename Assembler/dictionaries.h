@@ -11,8 +11,9 @@ typedef enum Operations{MOV, CMP, ADD, SUB, LEA, CLR, NOT, INC, DEC, JMP, BNE, R
 typedef enum directives {DATA, STRING, EXTERN, ENTRY, UNKNOWN_DIRECTIVE = -1} directives;
 
 typedef enum errors {SYNTAX_ERR, FILE_NOT_FOUND, LABEL_SYNTAX, LABEL_LENGTH, EMPTY_LABEL_LINE,
-                     LABEL_DOUBLE_DEFINITION, COMMAND_NOT_FOUND, DIRECTIVE_NOT_FOUND, DATA_SYNTAX_ERROR,
-                     MISSING_COMMA_DATA, STRING_SYNTAX_ERROR, /*, ...*/ NO_ERR = -1};
+                     LABEL_DOUBLE_DEFINITION, COMMAND_NOT_FOUND, DIRECTIVE_NOT_FOUND,
+                     DATA_SYNTAX_ERROR, MISSING_COMMA_DATA, STRING_SYNTAX_ERROR,
+                     MISSING_COMMA_OPERATION, /*, ...*/ NO_ERR = -1};
 
 struct operations_dictionary{
     operations val;
