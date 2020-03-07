@@ -3,7 +3,7 @@
 //
 
 #include "dictionaries.h"
-operations str_to_operation_enum(const char* str) {
+operations find_operation(const char* str) {
     int i;
     for (i = 0; i < sizeof(conversion_operations) / sizeof(conversion_operations[0]); i++)
         if (str!=NULL && !strcmp(str, conversion_operations[i].str))
@@ -11,10 +11,10 @@ operations str_to_operation_enum(const char* str) {
     return UNKNOWN_COMMAND;
 }
 
-operations str_to_directive_enum(const char* str) {
+operations find_directive(const char* str) {
     int i;
     for (i = 0; i < sizeof(conversion_directives) / sizeof(conversion_directives[0]); i++)
         if (str!=NULL && !strcmp(str, conversion_directives[i].str))
             return conversion_directives[i].val;
-    return UNKNOWN_TYPE;
+    return UNKNOWN_DIRECTIVE;
 }

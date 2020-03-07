@@ -5,11 +5,16 @@
 #include "first_pass.h"
 #include "dictionaries.h"
 #include "utility.h"
+#include "label_table.h"
 #define MAX_LINE 120
+#define TRUE 1
+#define FALSE 0
 
 extern int error;
 extern int ic;
 extern int dc;
+extern unsigned int data [2000];
+extern unsigned int code [2000];
 
 void process_file(FILE* fp){
     char instruction[MAX_LINE];
@@ -19,36 +24,46 @@ void process_file(FILE* fp){
         if(!ignore_line(instruction))
             process_line(instruction);
         if(is_error())
-            write_err(line_number);
+            write_error(line_number);
         line_number++;
     }
 }
 
 void process_line(char* instruction){
-    char* token;
+    char token[MAX_LINE];
 
-    if(end_of_line(instruction)) return;
+    instruction = skip_spaces(instruction);
+
+    if(end_of_line(instruction)) return; //blank or comment line
     if(!isalpha(*line) && *line != '.') {
         error = SYNTAX_ERR;
         return;
     }
-    instruction = skip_spaces(instruction);
 
-    if(str_to_enum_instructions(instruction)!=-1){
-        handle_operation(instruction);
+    copy_token(instruction, token);
+    if(is_label(token)){
+        handle_label(instruction);
+        instruction = next_token(token);
+        copy_token(instruction, token);
     }
-    else if(*instruction=='.'){
+    if(is_error())
+        return;
+
+    if(find_directive(token) != UNKNOWN_DIRECTIVE){
         handle_directive(instruction);
     }
+    else if(find_operation(token) != UNKNOWN_COMMAND){
+        handle_operation(instruction);
+    }
     else{
-        handle_label(instruction);
+        error = COMMAND_NOT_FOUND;
     }
 }
 
 void handle_operation(char* operation){
     char* token;
-    token = strtok(operation, "\t\n, ");
-    switch(str_to_operation_enum(token)){
+    copy_token(operation,token);
+    switch(find_operation(token)){
         case MOV:
             break;
         case CMP:
@@ -82,32 +97,93 @@ void handle_operation(char* operation){
         case STOP:
             break;
         case UNKNOWN_COMMAND:
+            error = COMMAND_NOT_FOUND;
             break;
     }
 }
 
-void handle_operation(char* directive){
-    directive = skip_spaces(directive);
-    switch(str_to_directive_enum(directive)){
+void handle_directive(char* directive){
+    char *token;
+    copy_token(directive,token);
+    switch(find_directive(token)){
         case DATA:
+            handle_data(directive);
             break;
         case STRING:
+            handle_string(directive);
             break;
         case ENTRY:
+            handle_entry(directive);
             break;
         case EXTERN:
+            handle_extern(directive);
             break;
         case UNKNOWN_TYPE:
+            error = DIRECTIVE_NOT_FOUND;
             break;
     }
 }
 
-void handle_label(char* label){
-    
+void handle_label(char* instruction){
+    char *label, *token;
+    copy_token(instruction, label);
+    token = next_token(label);
+    if(find_directive(token) != UNKNOWN_DIRECTIVE){
+        if(find_directive(token) == EXTERN){
+            add_label(label, 0, TRUE, FALSE);
+        }else if(find_directive(token) == ENTRY){
+            return;
+        }
+        else{
+            add_label(label, dc, FALSE, FALSE,TRUE);
+        }
+    }else if(find_operation(token) != UNKNOWN_COMMAND){
+        add_label(label, ic, FALSE, FALSE, FALSE)
+    }else if(end_of_line(token)){
+        error = EMPTY_LABEL_LINE;
+        return;
+    }else{
+        error = COMMAND_NOT_FOUND;
+        return;
+    }
 }
+
+
+int is_label(char * token, int colon){
+    int i;
+    if(colon && find_label(label)){
+        error = LABEL_DOUBLE_DEFINITION;
+        return;
+    }
+    if(!isalpha(*token)){
+        error = LABEL_SYNTAX;
+        return FALSE;
+    }
+    if(colon && token[strlen(token)-1] != ':'){
+        error = LABEL_SYNTAX;
+        return FALSE;
+    }
+    if(strlen(token) > (colon ? MAX_LABEL_LENGTH : (MAX_LABEL_LENGTH-1))){
+        error = LABEL_LENGTH;
+        return FALSE;
+    }
+    if(colon) token[strlen(token)-1] = '\0';
+    if(find_operation(token) != UNKNOWN_COMMAND){
+        error = LABEL_SYNTAX;
+    }
+    while(token[i] != '\0'){
+        if(!isalnum(token[i])){
+            error = LABEL_SYNTAX;
+            return FALSE;
+        }
+        i++;
+    }
+    return TRUE;
+}
+
 
 int is_error(){
     if(error == NO_ERR)
-        return 0;
-    return 1;
+        return FALSE;
+    return TRUE;
 }
