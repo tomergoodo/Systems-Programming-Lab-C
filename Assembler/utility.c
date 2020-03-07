@@ -13,7 +13,7 @@ char * add_extension(char *filename){
 
 char * next_token(char *seq){
     if(seq == NULL) return NULL;
-    while(!isspace(*seq) && !end_of_line(seq))
+    while(!isspace(*seq) && !end_of_line(seq) && *seq != ',')
         seq++;
     seq = skip_spaces(seq);
     if(end_of_line(seq)) return NULL;
@@ -23,8 +23,8 @@ char * next_token(char *seq){
 char * copy_token(char *src, char *dest){
     int i=0;
     if(src == NULL || dest == NULL) return dest;
-    while(i<MAX_LINE && !isspace(src[i]) && src[i] != '\0'){
-        dest[i]=src[i];
+    while(i<MAX_LINE && !isspace(src[i]) && src[i] != '\0' && src[i] != ','){
+        dest[i] = src[i];
         i++;
     }
     dest[i] = '\0';

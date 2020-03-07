@@ -39,3 +39,15 @@ void add_label(const char * name, const unsigned int address, const int is_exter
 
     va_end(list);
 }
+
+void remove_last_label(){
+    label_table * p = table_head, *q = NULL;
+    if(table_head == NULL)
+        return;
+    while(p->next != NULL) {
+        q = p;
+        p = p->next;
+    }
+    q -> next = NULL;
+    free(p);
+}

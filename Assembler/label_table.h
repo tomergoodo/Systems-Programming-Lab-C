@@ -7,6 +7,7 @@
 
 void add_label(const char * name, const unsigned int address, const int is_extern, ...);
 int find_label(char * label);
+void remove_last_label();
 
 typedef struct label_table{
     char label[MAX_LINE];

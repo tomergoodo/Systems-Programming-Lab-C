@@ -7,7 +7,6 @@
 
 
 int main(int argc, char* argv[]){
-    //printf("%d", sizeof(unsigned int));
     while(argc){
         handle_file(*argv++);
         argc--;
