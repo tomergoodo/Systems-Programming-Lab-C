@@ -1,14 +1,19 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+#include <stdio.h>
 #include <stdlib.h>
-#include "first_pass.h"
+#include <ctype.h>
+#include <string.h>
 #include "dictionaries.h"
+#include "first_pass.h"
 #include "utility.h"
 #include "label_table.h"
+
 #define MAX_LINE 120
 #define TRUE 1
 #define FALSE 0
+#define MAX_LABEL_LENGTH 31
 
 extern int error;
 extern int ic;
@@ -35,13 +40,13 @@ void process_line(char* instruction){
     instruction = skip_spaces(instruction);
 
     if(end_of_line(instruction)) return; //blank or comment line
-    if(!isalpha(*line) && *line != '.') {
+    if(!isalpha(*instruction) && *instruction != '.') {
         error = SYNTAX_ERR;
         return;
     }
 
     copy_token(instruction, token);
-    if(is_label(token)){
+    if(is_label(token, TRUE)){
         handle_label(instruction);
         instruction = next_token(instruction);
         copy_token(instruction, token);
@@ -84,7 +89,7 @@ void handle_directive(char* directive){
             break;
         case ENTRY:
             break;
-        case UNKNOWN_TYPE:
+        case UNKNOWN_DIRECTIVE:
             error = DIRECTIVE_NOT_FOUND;
             break;
     }
@@ -92,7 +97,6 @@ void handle_directive(char* directive){
 
 void handle_data(char * data){
     char token[MAX_LINE];
-    int token;
     copy_token(data,token);
 
     while(!end_of_line(token)){
@@ -101,14 +105,13 @@ void handle_data(char * data){
             return;
         }
         else{
-            token = atoi(token);
-            write_to_data(token);
+            write_to_data(atoi(token));
         }
 
         data = next_token(data);
         copy_token(data,token);
 
-        if(token != ',' && !end_of_line(data)){
+        if(*token != ',' && !end_of_line(data)){
             error = MISSING_COMMA_DATA;
             return;
         }
@@ -162,7 +165,7 @@ void handle_label(char* instruction){
         add_label(label, dc, FALSE, FALSE, TRUE);
     }
     else if(find_operation(token) != UNKNOWN_COMMAND){
-        add_label(label, ic, FALSE, FALSE, FALSE)
+        add_label(label, ic, FALSE, FALSE, FALSE);
     }
     else if(end_of_line(token)){
         error = EMPTY_LABEL_LINE;
@@ -177,9 +180,9 @@ void handle_label(char* instruction){
 
 int is_label(char * token, int colon){
     int i;
-    if(colon && find_label(label)){
+    if(colon && find_label(token)){
         error = LABEL_DOUBLE_DEFINITION;
-        return;
+        return FALSE;
     }
     if(!isalpha(*token)){
         error = LABEL_SYNTAX;
@@ -210,17 +213,17 @@ int is_label(char * token, int colon){
 
 void handle_operation(char* operation){
     char command[MAX_LINE];
-    int number_of_operators;
+    int numb_of_operands;
     char first_op[20],second_op[20];
 
     copy_token(operation,command); //get command
     operation = next_token(operation); //operation -> first operator
 
-    number_of_operands = number_of_operands(find_operation(command));
+    numb_of_operands = number_of_operands(find_operation(command));
 
-    if(number_of_operands){
+    if(numb_of_operands){
         copy_token(operation,first_op);
-        number_of_operands--;
+        numb_of_operands--;
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
@@ -235,9 +238,9 @@ void handle_operation(char* operation){
 
     operation = next_token(operation); //operation -> second operator
 
-    if(number_of_operands){
+    if(numb_of_operands){
         copy_token(operation, second_op);
-        number_of_operands--;
+        numb_of_operands--;
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
@@ -261,19 +264,19 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
         case MOV:
         case ADD:
         case SUB:
-            return (source_method == METHOD_IMMEDIATE || first_method == METHOD_DIRECT
-                || first_method == METHOD_REGISTER)
-                && (second_method == METHOD_DIRECT || second_method == METHOD_REGISTER);
+            return (source_method == METHOD_IMMEDIATE || source_method == METHOD_DIRECT
+                || source_method == METHOD_REGISTER)
+                && (dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER);
     /*
      * cmp:
      * src: 0,1,3
      * dest: 0,1,3
      */
         case CMP:
-            return (source_method == METHOD_IMMEDIATE || first_method == METHOD_DIRECT
-                    || first_method == METHOD_REGISTER)
-                    && (source_method == METHOD_IMMEDIATE || second_method == METHOD_DIRECT
-                    || second_method == METHOD_REGISTER);
+            return (source_method == METHOD_IMMEDIATE || source_method == METHOD_DIRECT
+                    || source_method == METHOD_REGISTER)
+                    && (dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT
+                    || dest_method == METHOD_REGISTER);
     /*
      * lea:
      * src: 1

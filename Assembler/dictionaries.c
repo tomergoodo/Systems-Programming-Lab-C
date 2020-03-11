@@ -1,6 +1,9 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include "utility.h"
 #include "dictionaries.h"
@@ -26,7 +29,7 @@ methods find_method(char* str) {
         return NONE;
     if (*str == 'r') {
         str++;
-        if (atoi(*(str)) >= 0 && atoi(*(str)) <= 7)
+        if (atoi(str) >= 0 && atoi(str) <= 7)
             return METHOD_REGISTER;
     }
     str--;
@@ -34,10 +37,10 @@ methods find_method(char* str) {
         return METHOD_DIRECT;
     }
     switch(*str){
-        case "#":
+        case '#':
             return METHOD_IMMEDIATE;
-        case "&":
+        case '&':
             return METHOD_RELATIVE;
     }
-    return UNKNOWN_METHOD;
+    return METHOD_UNKNOWN;
 }

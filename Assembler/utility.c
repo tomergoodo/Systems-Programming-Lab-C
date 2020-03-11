@@ -1,12 +1,18 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include "utility.h"
+#include "dictionaries.h"
+
+extern int error;
 
 char * add_extension(char *filename){
     char * extended_filename = (char*)malloc(strlen(filename)+3);
-    char * extension = ".as"
+    char * extension = ".as";
     extended_filename = filename;
     return strncat(extended_filename,extension,3);
 }
@@ -32,7 +38,7 @@ char * copy_token(char *src, char *dest){
 }
 
 void write_error(int line_number){
-    fprintf(stderr, "ERROR (line %d): ", line_num);
+    fprintf(stderr, "ERROR (line %d): ", line_number);
     switch(error){
         case SYNTAX_ERR:
             fprintf(stderr, "first non-blank character must be a letter or a dot.\n");

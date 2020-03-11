@@ -4,10 +4,19 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "utility.h"
+#include "dictionaries.h"
+#include "first_pass.h"
 
+void handle_file(char * filename);
+void set_parameters();
+extern int error;
+extern int ic;
+extern int dc;
 
 int main(int argc, char* argv[]){
     while(argc){
+        set_parameters();
         handle_file(*argv++);
         argc--;
     }
@@ -16,7 +25,7 @@ int main(int argc, char* argv[]){
 
 void handle_file(char * filename){
     FILE *fp;
-    filename = add_extention(filename);
+    filename = add_extension(filename);
     fp = fopen(filename,"r");
     if(fp == NULL) {
         error = FILE_NOT_FOUND;
@@ -25,4 +34,11 @@ void handle_file(char * filename){
     }
     process_file(fp);
     fclose(fp);
+}
+
+
+void set_parameters(){
+    ic = 0;
+    dc = 0;
+    error = NO_ERR;
 }
