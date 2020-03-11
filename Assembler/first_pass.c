@@ -216,13 +216,13 @@ void handle_operation(char* operation){
     copy_token(operation,command); //get command
     operation = next_token(operation); //operation -> first operator
 
-    number_of_operators = number_of_operators(find_operation(command));
+    number_of_operands = number_of_operands(find_operation(command));
 
-    if(number_of_operators){
+    if(number_of_operands){
         copy_token(operation,first_op);
-        number_of_operators--;
+        number_of_operands--;
     }else if(!end_of_line(operation)){
-        error = TOO_MANY_OPERANDS_ERROR;
+        error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
@@ -235,22 +235,95 @@ void handle_operation(char* operation){
 
     operation = next_token(operation); //operation -> second operator
 
-    if(number_of_operators){
+    if(number_of_operands){
         copy_token(operation, second_op);
-        number_of_operators--;
+        number_of_operands--;
     }else if(!end_of_line(operation)){
-        error = TOO_MANY_OPERANDS_ERROR;
+        error = NUMBER_OF_OPERANDS_ERROR;
+        return;
+    }
+    if(!operand_valid_method(find_operation(command),find_method(first_op),find_method(second_op))){
+        error = ADDRESS_METHOD_ERROR;
         return;
     }
 
-    ic += calculate_additional_words(find_operation(command), first_op, second_op);
+    ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
 }
 
-int calculate_additional_words(operations type, char *first_op, char *second_op){
-    return 0;
+
+int operand_valid_method(operations type, methods source_method, methods dest_method){
+    switch(type){
+    /*
+     * mov, add and sub:
+     * src: 0,1,3
+     * dest: 1,3
+     */
+        case MOV:
+        case ADD:
+        case SUB:
+            return (source_method == METHOD_IMMEDIATE || first_method == METHOD_DIRECT
+                || first_method == METHOD_REGISTER)
+                && (second_method == METHOD_DIRECT || second_method == METHOD_REGISTER);
+    /*
+     * cmp:
+     * src: 0,1,3
+     * dest: 0,1,3
+     */
+        case CMP:
+            return (source_method == METHOD_IMMEDIATE || first_method == METHOD_DIRECT
+                    || first_method == METHOD_REGISTER)
+                    && (source_method == METHOD_IMMEDIATE || second_method == METHOD_DIRECT
+                    || second_method == METHOD_REGISTER);
+    /*
+     * lea:
+     * src: 1
+     * dest: 1,3
+     */
+        case LEA:
+            return (source_method == METHOD_DIRECT) && (dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER);
+    /*
+     * clr, not, inc, dec, red:
+     * no src operand
+     * dest: 1,3
+     */
+        case CLR:
+        case NOT:
+        case INC:
+        case DEC:
+        case RED:
+            return dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER;
+
+    /*
+     * prn:
+     * no src operand
+     * dest: 0,1,3
+     */
+        case PRN:
+            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER;
+    /*
+     * jmp, bne, jsr:
+     * no src operand
+     * dest: 1,2
+     */
+        case JMP:
+        case BNE:
+        case JSR:
+            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_RELATIVE;
+    /*
+     * rts, stop:
+     * no src operand
+     * no dest operand
+     */
+        case RTS:
+        case STOP:
+            return TRUE;
+        case UNKNOWN_COMMAND:
+            error = COMMAND_NOT_FOUND;
+            return TRUE;
+    }
 }
 
-int number_of_operators(operations type){
+int number_of_operands(operations type){
     switch(type){
         case MOV:
         case CMP:
@@ -276,6 +349,22 @@ int number_of_operators(operations type){
             return 0;
     }
     return 0;
+}
+
+
+int calculate_additional_words(operations type, methods src_method, methods dest_method){
+    int words = 1, register_flag = FALSE;
+    if(src_method != METHOD_REGISTER && src_method != NONE && src_method != METHOD_UNKNOWN)
+        words++;
+    else if(src_method == METHOD_REGISTER){
+        register_flag = TRUE;
+        words++;
+    }
+    if(dest_method != METHOD_REGISTER && dest_method != NONE && dest_method != METHOD_UNKNOWN)
+        words++;
+    else if(dest_method == METHOD_REGISTER && !register_flag)
+        words++;
+    return words;
 }
 
 
