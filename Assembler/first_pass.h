@@ -4,9 +4,17 @@
 
 #ifndef ASSEMBLER_FIRST_PASS_H
 #define ASSEMBLER_FIRST_PASS_H
-#include "dictionaries.h"
 
 #define MAX_LINE 120
+#define TRUE 1
+#define FALSE 0
+#define MAX_LABEL_LENGTH 31
+
+extern int error;
+extern int ic;
+extern int dc;
+extern unsigned int data [2000];
+extern unsigned int code [2000];
 
 void process_file(FILE* fp);
 void process_line(char* instruction);

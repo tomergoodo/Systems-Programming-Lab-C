@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tomer/Desktop/University/Assembler/dictionaries.h
+
+/home/tomer/Desktop/University/Assembler/first_pass.c
+stdio.h
+-
+stdlib.h
+-
+ctype.h
+-
+string.h
+-
+dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
+first_pass.h
+/home/tomer/Desktop/University/Assembler/first_pass.h
+utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
+label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
+
+/home/tomer/Desktop/University/Assembler/first_pass.h
+
+/home/tomer/Desktop/University/Assembler/label_table.h
+
+/home/tomer/Desktop/University/Assembler/utility.h
+

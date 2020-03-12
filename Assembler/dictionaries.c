@@ -8,6 +8,38 @@
 #include "utility.h"
 #include "dictionaries.h"
 
+struct operations_dictionary{
+    operations val;
+    const char* str;
+} conversion_operations[] = {
+        {MOV, "mov"},
+        {CMP, "cmp"},
+        {ADD, "add"},
+        {SUB, "sub"},
+        {LEA, "lea"},
+        {CLR, "clr"},
+        {NOT, "not"},
+        {INC, "inc"},
+        {DEC, "dec"},
+        {JMP, "jmp"},
+        {BNE, "bne"},
+        {RED, "red"},
+        {PRN, "prn"},
+        {JSR, "jsr"},
+        {RTS, "rts"},
+        {STOP,"stop"}
+};
+
+struct directives_dictionary{
+    directives val;
+    const char* str;
+} conversion_directives[] = {
+        {DATA, ".data"},
+        {STRING, ".string"},
+        {ENTRY, ".entry"},
+        {EXTERN, ".extern"}
+};
+
 operations find_operation(const char* str) {
     int i;
     for (i = 0; i < sizeof(conversion_operations) / sizeof(conversion_operations[0]); i++)

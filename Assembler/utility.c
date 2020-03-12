@@ -13,7 +13,7 @@ extern int error;
 char * add_extension(char *filename){
     char * extended_filename = (char*)malloc(strlen(filename)+3);
     char * extension = ".as";
-    extended_filename = filename;
+    strcpy(extended_filename,filename);
     return strncat(extended_filename,extension,3);
 }
 

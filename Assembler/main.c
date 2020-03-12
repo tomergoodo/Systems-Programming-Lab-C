@@ -10,14 +10,17 @@
 
 void handle_file(char * filename);
 void set_parameters();
-extern int error;
-extern int ic;
-extern int dc;
+int error;
+int ic;
+int dc;
+unsigned int data [2000];
+unsigned int code [2000];
+
 
 int main(int argc, char* argv[]){
     while(argc){
         set_parameters();
-        handle_file(*argv++);
+        handle_file(*(argv++));
         argc--;
     }
     return 0;

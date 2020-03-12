@@ -10,16 +10,7 @@
 #include "utility.h"
 #include "label_table.h"
 
-#define MAX_LINE 120
-#define TRUE 1
-#define FALSE 0
-#define MAX_LABEL_LENGTH 31
 
-extern int error;
-extern int ic;
-extern int dc;
-extern unsigned int data [2000];
-extern unsigned int code [2000];
 
 void process_file(FILE* fp){
     char instruction[MAX_LINE];
@@ -69,7 +60,7 @@ void process_line(char* instruction){
 
 
 void handle_directive(char* directive){
-    char *token;
+    char token[MAX_LINE];
     copy_token(directive,token);
     switch(find_directive(token)){
         case DATA:
@@ -126,7 +117,7 @@ int check_number_validity(char * num){
     if(*num == '-' || *num == '+')
         num++;
     while(*num != '\0'){
-        if(!isdigit(num))
+        if(!isdigit(*num))
             return FALSE;
     }
     return TRUE;
@@ -158,9 +149,11 @@ void handle_extern(char * label){
 
 
 void handle_label(char* instruction){
-    char *label, *token;
+    char label[MAX_LINE];
+    char token[MAX_LINE];
     copy_token(instruction, label);
-    token = next_token(label);
+    instruction = next_token(instruction);
+    copy_token(instruction,token);
     if(find_directive(token) != UNKNOWN_DIRECTIVE){
         add_label(label, dc, FALSE, FALSE, TRUE);
     }

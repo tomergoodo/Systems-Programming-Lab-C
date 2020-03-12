@@ -17,39 +17,6 @@ typedef enum errors {SYNTAX_ERR, FILE_NOT_FOUND, LABEL_SYNTAX, LABEL_LENGTH, EMP
 
 typedef enum methods {METHOD_IMMEDIATE, METHOD_DIRECT, METHOD_RELATIVE, METHOD_REGISTER, NONE, METHOD_UNKNOWN = -1} methods;
 
-struct operations_dictionary{
-    operations val;
-    const char* str;
-} conversion_operations[] = {
-        {MOV, "mov"},
-        {CMP, "cmp"},
-        {ADD, "add"},
-        {SUB, "sub"},
-        {LEA, "lea"},
-        {CLR, "clr"},
-        {NOT, "not"},
-        {INC, "inc"},
-        {DEC, "dec"},
-        {JMP, "jmp"},
-        {BNE, "bne"},
-        {RED, "red"},
-        {PRN, "prn"},
-        {JSR, "jsr"},
-        {RTS, "rts"},
-        {STOP,"stop"}
-};
-
-struct directives_dictionary{
-    directives val;
-    const char* str;
-} conversion_directives[] = {
-        {DATA, ".data"},
-        {STRING, ".string"},
-        {ENTRY, ".entry"},
-        {EXTERN, ".extern"}
-};
-
-
 operations find_operation(const char* str);
 directives find_directive(const char* str);
 methods find_method(char* str);
