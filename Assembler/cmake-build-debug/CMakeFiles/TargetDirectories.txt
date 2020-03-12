@@ -1,0 +1,3 @@
+/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir
+/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/edit_cache.dir
