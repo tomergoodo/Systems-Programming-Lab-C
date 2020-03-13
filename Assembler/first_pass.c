@@ -65,18 +65,18 @@ void handle_directive(char* directive){
     switch(find_directive(token)){
         case DATA:
             directive = next_token(directive);
-            copy_token(directive, token);
-            handle_data(token);
+//            copy_token(directive, token);
+            handle_data(directive);
             break;
         case STRING:
             directive = next_token(directive);
-            copy_token(directive, token);
-            handle_string(token);
+//            copy_token(directive, token);
+            handle_string(directive);
             break;
         case EXTERN:
             directive = next_token(directive);
-            copy_token(directive, token);
-            handle_extern(token);
+//            copy_token(directive, token);
+            handle_extern(directive);
             break;
         case ENTRY:
             break;
@@ -90,7 +90,7 @@ void handle_data(char * data){
     char token[MAX_LINE];
     copy_token(data,token);
 
-    while(!end_of_line(token)){
+    while(!end_of_line(data)){
         if(!check_number_validity(token)){
             error = DATA_SYNTAX_ERROR;
             return;
@@ -116,9 +116,10 @@ void handle_data(char * data){
 int check_number_validity(char * num){
     if(*num == '-' || *num == '+')
         num++;
-    while(*num != '\0'){
+    while(*num != '\0' && *num != ',' && !isspace(*num)){
         if(!isdigit(*num))
             return FALSE;
+        num++;
     }
     return TRUE;
 }
@@ -182,7 +183,7 @@ int is_label(char * token, int colon){
         return FALSE;
     }
     if(colon && token[strlen(token)-1] != ':'){
-        error = LABEL_SYNTAX;
+        //error = LABEL_SYNTAX;
         return FALSE;
     }
     if(strlen(token) > (colon ? MAX_LABEL_LENGTH : (MAX_LABEL_LENGTH-1))){
@@ -192,6 +193,7 @@ int is_label(char * token, int colon){
     if(colon) token[strlen(token)-1] = '\0';
     if(find_operation(token) != UNKNOWN_COMMAND){
         error = LABEL_SYNTAX;
+        return FALSE;
     }
     while(token[i] != '\0'){
         if(!isalnum(token[i])){
@@ -220,6 +222,9 @@ void handle_operation(char* operation){
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
+    }else{
+        ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
+        return;
     }
 
     operation = next_token(operation); //operation -> comma
@@ -237,13 +242,16 @@ void handle_operation(char* operation){
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
+    }else{
+        ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
+        return;
     }
-    if(!operand_valid_method(find_operation(command),find_method(first_op),find_method(second_op))){
+    if(!operand_valid_method(find_operation(command), find_method(second_op), find_method(first_op))){
         error = ADDRESS_METHOD_ERROR;
         return;
     }
 
-    ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
+    ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
 }
 
 

@@ -19,6 +19,12 @@ char * add_extension(char *filename){
 
 char * next_token(char *seq){
     if(seq == NULL) return NULL;
+    if(*seq == ','){
+        seq++;
+        seq = skip_spaces(seq);
+        if(end_of_line(seq)) return NULL;
+        return seq;
+    }
     while(!isspace(*seq) && !end_of_line(seq) && *seq != ',')
         seq++;
     seq = skip_spaces(seq);
@@ -33,12 +39,18 @@ char * copy_token(char *src, char *dest){
         dest[i] = src[i];
         i++;
     }
+    if(src[0] == ',') {
+        dest[0] = src[0];
+        dest[1] =  '\0';
+        return dest;
+    }
+
     dest[i] = '\0';
     return dest;
 }
 
 void write_error(int line_number){
-    fprintf(stderr, "ERROR (line %d): ", line_number);
+    fprintf(stderr, "ERROR (line %d): \n", line_number);
     switch(error){
         case SYNTAX_ERR:
             fprintf(stderr, "first non-blank character must be a letter or a dot.\n");

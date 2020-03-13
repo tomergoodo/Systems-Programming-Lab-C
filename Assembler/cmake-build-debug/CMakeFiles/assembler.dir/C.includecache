@@ -22,15 +22,18 @@ C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionari
 
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 
+<<<<<<< HEAD
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.c
+=======
+/home/tomer/Desktop/University/Assembler/utility.c
+>>>>>>> 573123e75748c3c8c73691382b0748ddc22e81ea
 stdio.h
 -
 stdlib.h
 -
-ctype.h
--
 string.h
 -
+<<<<<<< HEAD
 dictionaries.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 first_pass.h
@@ -87,6 +90,14 @@ utility.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 dictionaries.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+=======
+ctype.h
+-
+utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
+dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
+>>>>>>> 573123e75748c3c8c73691382b0748ddc22e81ea
 
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 
