@@ -63,8 +63,8 @@ methods find_method(char* str) {
         str++;
         if (atoi(str) >= 0 && atoi(str) <= 7)
             return METHOD_REGISTER;
+        str--;
     }
-    str--;
     if(isalnum(*str)){
         return METHOD_DIRECT;
     }

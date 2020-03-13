@@ -19,6 +19,9 @@ char * add_extension(char *filename){
 
 char * next_token(char *seq){
     if(seq == NULL) return NULL;
+    if(*seq == ','){
+        return ++seq;
+    }
     while(!isspace(*seq) && !end_of_line(seq) && *seq != ',')
         seq++;
     seq = skip_spaces(seq);
@@ -33,6 +36,12 @@ char * copy_token(char *src, char *dest){
         dest[i] = src[i];
         i++;
     }
+    if(src[0] == ',') {
+        dest[0] = src[0];
+        dest[1] =  '\0';
+        return dest;
+    }
+
     dest[i] = '\0';
     return dest;
 }

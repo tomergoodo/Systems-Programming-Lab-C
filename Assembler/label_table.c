@@ -22,6 +22,7 @@ int find_label(char * label){
     while(p != NULL){
         if(p->label == label)
             return TRUE;
+        p = p->next;
     }
     return FALSE;
 }
