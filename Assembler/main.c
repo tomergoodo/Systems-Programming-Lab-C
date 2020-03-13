@@ -18,10 +18,9 @@ unsigned int code [2000];
 
 
 int main(int argc, char* argv[]){
-    while(argc){
+    while(--argc){
         set_parameters();
-        handle_file(*(argv++));
-        argc--;
+        handle_file(*(++argv));
     }
     return 0;
 }
@@ -36,6 +35,7 @@ void handle_file(char * filename){
         return;
     }
     process_file(fp);
+    printf("Finished processing %s\n",filename);
     fclose(fp);
 }
 
