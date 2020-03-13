@@ -1,3 +1,0 @@
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/rebuild_cache.dir
