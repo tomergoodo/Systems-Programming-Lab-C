@@ -53,10 +53,51 @@ void write_error(int line_number){
     fprintf(stderr, "ERROR (line %d): \n", line_number);
     switch(error){
         case SYNTAX_ERR:
-            fprintf(stderr, "first non-blank character must be a letter or a dot.\n");
+            fprintf(stderr, "First non-blank character must be a letter or a dot.\n");
             break;
-        //case :
-            /*....*/
+        case LABEL_SYNTAX:
+            fprintf(stderr, "Label must start with an alphabetic character and continue with alphanumeric characters.\n");
+            break;
+        case LABEL_LENGTH:
+            fprintf(stderr, "Label must be max %d characters long.\n", MAX_LABEL_LENGTH_FULL);
+            break;
+        case EMPTY_LABEL_LINE:
+            fprintf(stderr, "A label can not be followed by an empty line.\n");
+            break;
+        case LABEL_DOUBLE_DEFINITION:
+            fprintf(stderr, "Label is defined more than once.\n");
+            break;
+        case LABEL_CONFLICTING_NAME:
+            fprintf(stderr, "Label can not be a name of instruction or register.\n");
+            break;
+        case LABEL_SYNTAX_COLON:
+            fprintf(stderr, "Label definition must end with a colon.\n");
+            break;
+        case COMMAND_NOT_FOUND:
+            fprintf(stderr,"Command not found.\n");
+            break;
+        case DIRECTIVE_NOT_FOUND:
+            fprintf(stderr,"Directive not found.\n");
+            break;
+        case DATA_SYNTAX_ERROR:
+            fprintf(stderr, "Data variables must be integers.\n");
+            break;
+        case MISSING_COMMA_DATA:
+            fprintf(stderr, "Data variables must be separated with commas.\n");
+            break;
+        case STRING_SYNTAX_ERROR:
+            fprintf(stderr, "Strings must start and end with "".\n");
+            break;
+        case MISSING_COMMA_OPERATION:
+            fprintf(stderr, "operands must be separated with commas.\n");
+            break;
+        case ADDRESS_METHOD_ERROR:
+            fprintf(stderr, "Address method isn't compatible with operation.\n");
+            break;
+        case NUMBER_OF_OPERANDS_ERROR:
+            fprintf(stderr, "Unexpected number of operands.\n");
+            break;
+
     }
 }
 

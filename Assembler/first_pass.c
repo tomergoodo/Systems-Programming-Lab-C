@@ -65,17 +65,14 @@ void handle_directive(char* directive){
     switch(find_directive(token)){
         case DATA:
             directive = next_token(directive);
-//            copy_token(directive, token);
             handle_data(directive);
             break;
         case STRING:
             directive = next_token(directive);
-//            copy_token(directive, token);
             handle_string(directive);
             break;
         case EXTERN:
             directive = next_token(directive);
-//            copy_token(directive, token);
             handle_extern(directive);
             break;
         case ENTRY:
@@ -144,6 +141,8 @@ void handle_string(char * string){
 
 void handle_extern(char * label){
     if(is_label(label,FALSE)){
+        if(isspace(label[strlen(label)-1]))
+            label[strlen(label)-1] = '\0';
         add_label(label,0,TRUE);
     }
 }
@@ -156,12 +155,16 @@ void handle_label(char* instruction){
     instruction = next_token(instruction);
     copy_token(instruction,token);
     if(find_directive(token) != UNKNOWN_DIRECTIVE){
+        if(isspace(label[strlen(label)-1]))
+            label[strlen(label)-1] = '\0';
         add_label(label, dc, FALSE, FALSE, TRUE);
     }
     else if(find_operation(token) != UNKNOWN_COMMAND){
+        if(isspace(label[strlen(label)-1]))
+            label[strlen(label)-1] = '\0';
         add_label(label, ic, FALSE, FALSE, FALSE);
     }
-    else if(end_of_line(token)){
+    else if(end_of_line(instruction)){
         error = EMPTY_LABEL_LINE;
         return;
     }
@@ -173,29 +176,36 @@ void handle_label(char* instruction){
 
 
 int is_label(char * token, int colon){
-    int i;
-    if(colon && find_label(token)){
-        error = LABEL_DOUBLE_DEFINITION;
-        return FALSE;
-    }
-    if(!isalpha(*token)){
-        error = LABEL_SYNTAX;
+    int i = 0;
+    if(colon && (find_operation(token) != UNKNOWN_COMMAND || find_directive(token) != UNKNOWN_DIRECTIVE)){
         return FALSE;
     }
     if(colon && token[strlen(token)-1] != ':'){
-        //error = LABEL_SYNTAX;
+        error = LABEL_SYNTAX_COLON;
         return FALSE;
     }
     if(strlen(token) > (colon ? MAX_LABEL_LENGTH : (MAX_LABEL_LENGTH-1))){
         error = LABEL_LENGTH;
         return FALSE;
     }
-    if(colon) token[strlen(token)-1] = '\0';
-    if(find_operation(token) != UNKNOWN_COMMAND){
+    if(!isalpha(*token)){
         error = LABEL_SYNTAX;
         return FALSE;
     }
-    while(token[i] != '\0'){
+
+    if(colon) token[strlen(token)-1] = '\0';
+
+    if(colon && find_label(token)){
+        error = LABEL_DOUBLE_DEFINITION;
+        return FALSE;
+    }
+
+    if(find_operation(token) != UNKNOWN_COMMAND){
+        error = LABEL_CONFLICTING_NAME;
+        return FALSE;
+    }
+
+    while(end_of_line(token)){
         if(!isalnum(token[i])){
             error = LABEL_SYNTAX;
             return FALSE;
@@ -222,13 +232,21 @@ void handle_operation(char* operation){
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
-    }else{
-        ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
+    }
+    if(!numb_of_operands && end_of_line(next_token(operation))){
+        if(!operand_valid_method(find_operation(command), NONE, find_method(first_op))){
+            error = ADDRESS_METHOD_ERROR;
+            return;
+        }
+        ic += calculate_additional_words(find_operation(command), NONE, find_method(first_op));
         return;
     }
 
     operation = next_token(operation); //operation -> comma
-
+    if(operation == NULL && numb_of_operands){
+        error = NUMBER_OF_OPERANDS_ERROR;
+        return;
+    }
     if(*operation != ',' && !end_of_line(operation)){
         error = MISSING_COMMA_OPERATION;
         return;
@@ -242,10 +260,13 @@ void handle_operation(char* operation){
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
-    }else{
-        ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
+    }
+
+    if(!numb_of_operands && !end_of_line(next_token(operation))){
+        error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
+
     if(!operand_valid_method(find_operation(command), find_method(second_op), find_method(first_op))){
         error = ADDRESS_METHOD_ERROR;
         return;

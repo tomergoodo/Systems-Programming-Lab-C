@@ -5,6 +5,7 @@
 #ifndef ASSEMBLER_UTILITY_H
 #define ASSEMBLER_UTILITY_H
 #define MAX_LINE 120
+#define MAX_LABEL_LENGTH_FULL 32
 
 char *add_extension(char * filename);
 
