@@ -20,7 +20,7 @@ int find_label(char * label){
     if(table_head == NULL)
         return FALSE;
     while(p != NULL){
-        if(p->label == label)
+        if(strcmp(p->label, label) == 0)
             return TRUE;
         p = p->next;
     }
