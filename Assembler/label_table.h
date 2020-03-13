@@ -7,9 +7,13 @@
 #define MAX_LINE 120
 #define TRUE 1
 #define FALSE 0
+
+extern ic;
+
 void add_label(const char * name, const unsigned int address, const int is_extern, ...);
 int find_label(char * label);
 void remove_last_label();
+void update_label_table();
 
 typedef struct label_table label_table;
 

@@ -9,6 +9,9 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_LABEL_LENGTH 31
+#define METHOD_BITS 4
+#define FIELD_BITS 3
+
 
 extern int error;
 extern int ic;
@@ -24,6 +27,8 @@ int check_number_validity(char * num);
 int number_of_operands(operations type);
 int operand_valid_method(operations type, methods source_method, methods dest_method);
 int calculate_additional_words(operations type, methods src_method, methods dest_method);
+unsigned int encode_first_word(int type, int src, int dest, int src_method, int dest_method);
+unsigned int insert_field(unsigned int word, fields field);
 
 void handle_directive(char* directive);
 void handle_data(char * data);

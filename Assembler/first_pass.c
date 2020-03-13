@@ -23,6 +23,7 @@ void process_file(FILE* fp){
             write_error(line_number);
         line_number++;
     }
+    update_label_table();
 }
 
 void process_line(char* instruction){
@@ -162,7 +163,7 @@ void handle_label(char* instruction){
     else if(find_operation(token) != UNKNOWN_COMMAND){
         if(isspace(label[strlen(label)-1]))
             label[strlen(label)-1] = '\0';
-        add_label(label, ic, FALSE, FALSE, FALSE);
+        add_label(label, ic+100, FALSE, FALSE, FALSE);
     }
     else if(end_of_line(instruction)){
         error = EMPTY_LABEL_LINE;
@@ -238,6 +239,7 @@ void handle_operation(char* operation){
             error = ADDRESS_METHOD_ERROR;
             return;
         }
+        code[ic] = encode_first_word(find_operation(command), TRUE, FALSE, find_method(first_op), 0);
         ic += calculate_additional_words(find_operation(command), NONE, find_method(first_op));
         return;
     }
@@ -271,10 +273,31 @@ void handle_operation(char* operation){
         error = ADDRESS_METHOD_ERROR;
         return;
     }
-
+    code[ic] = encode_first_word(find_operation(command), TRUE, TRUE, find_method(second_op), find_method(first_op));
     ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
 }
 
+unsigned int encode_first_word(operations opcode, int src, int dest, methods src_method, methods dest_method){
+    unsigned int word = 0;
+    word = opcode;
+    word <<= METHOD_BITS;
+    if(src && dest)
+        word |= src_method;
+    word <<= METHOD_BITS;
+    if(src && dest)
+        word |= dest_method;
+    else if (src){
+        word |= src_method;
+    }
+    word = insert_field(word, ABSOLUTE);
+    return word;
+}
+
+unsigned int insert_field(unsigned int word, fields field){
+    word <<= FIELD_BITS;
+    word |= field;
+    return word;
+}
 
 int operand_valid_method(operations type, methods source_method, methods dest_method){
     switch(type){
@@ -391,7 +414,6 @@ int calculate_additional_words(operations type, methods src_method, methods dest
         words++;
     return words;
 }
-
 
 int is_error(){
     if(error == NO_ERR)

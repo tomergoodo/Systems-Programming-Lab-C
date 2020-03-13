@@ -18,6 +18,8 @@ typedef enum errors {FILE_NOT_FOUND, SYNTAX_ERR, LABEL_SYNTAX, LABEL_LENGTH, EMP
 
 typedef enum methods {METHOD_IMMEDIATE, METHOD_DIRECT, METHOD_RELATIVE, METHOD_REGISTER, NONE, METHOD_UNKNOWN = -1} methods;
 
+typedef enum fields {EXTERNAL, RELOCATABLE, ABSOLUTE} fields;
+
 operations find_operation(const char* str);
 directives find_directive(const char* str);
 methods find_method(char* str);

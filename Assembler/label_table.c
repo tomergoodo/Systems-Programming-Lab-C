@@ -62,3 +62,16 @@ void remove_last_label(){
     q -> next = NULL;
     free(p);
 }
+
+void update_label_table(){
+    label_table * p = table_head;
+    if(table_head == NULL)
+        return;
+    while(p != NULL) {
+        if(p->is_directive)
+            p->address += 100;
+        if(!p->is_directive)
+            p->address += ic+100;
+        p = p->next;
+    }
+}
