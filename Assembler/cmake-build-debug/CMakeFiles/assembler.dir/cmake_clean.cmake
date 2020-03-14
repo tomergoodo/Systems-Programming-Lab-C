@@ -1,13 +1,11 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/assembler.dir/dictionaries.c.obj"
-  "CMakeFiles/assembler.dir/first_pass.c.obj"
-  "CMakeFiles/assembler.dir/label_table.c.obj"
-  "CMakeFiles/assembler.dir/main.c.obj"
-  "CMakeFiles/assembler.dir/second_pass.c.obj"
-  "CMakeFiles/assembler.dir/utility.c.obj"
-  "assembler.exe"
-  "assembler.exe.manifest"
-  "assembler.lib"
+  "CMakeFiles/assembler.dir/dictionaries.c.o"
+  "CMakeFiles/assembler.dir/first_pass.c.o"
+  "CMakeFiles/assembler.dir/label_table.c.o"
+  "CMakeFiles/assembler.dir/main.c.o"
+  "CMakeFiles/assembler.dir/second_pass.c.o"
+  "CMakeFiles/assembler.dir/utility.c.o"
+  "assembler"
   "assembler.pdb"
 )
 

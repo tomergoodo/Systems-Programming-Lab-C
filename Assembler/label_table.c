@@ -41,9 +41,10 @@ void add_label(const char * name, const unsigned int address, const int is_exter
     }
     while(p->next != NULL)
         p = p->next;
-    p =(label_table*)malloc(sizeof(label_table));
+    p->next =(label_table*)malloc(sizeof(label_table));
+    p = p->next;
     p->next = NULL;
-    strcpy(table_head->label, name);
+    strcpy(p->label, name);
     p->address = address;
     p->is_extern = is_extern;
     p->is_directive = va_arg(list, int);

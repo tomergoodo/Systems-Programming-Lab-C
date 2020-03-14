@@ -28,7 +28,7 @@ int number_of_operands(operations type);
 int operand_valid_method(operations type, methods source_method, methods dest_method);
 int calculate_additional_words(operations type, methods src_method, methods dest_method);
 unsigned int encode_first_word(int type, int src, int dest, int src_method, int dest_method);
-unsigned int insert_field(unsigned int word, fields field);
+unsigned int insert_field(unsigned int word, int field);
 
 void handle_directive(char* directive);
 void handle_data(char * data);

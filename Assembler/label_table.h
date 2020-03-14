@@ -8,7 +8,7 @@
 #define TRUE 1
 #define FALSE 0
 
-extern ic;
+extern int ic;
 
 void add_label(const char * name, const unsigned int address, const int is_extern, ...);
 int find_label(char * label);

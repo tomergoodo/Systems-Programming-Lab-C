@@ -97,6 +97,9 @@ void write_error(int line_number){
         case NUMBER_OF_OPERANDS_ERROR:
             fprintf(stderr, "Unexpected number of operands.\n");
             break;
+        case METHOD_UNKNOWN_ERROR:
+            fprintf(stderr, "Unrecognized addressing method.\n");
+            break;
 
     }
 }

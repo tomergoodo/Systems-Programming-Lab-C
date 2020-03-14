@@ -5,6 +5,10 @@
 #ifndef ASSEMBLER_DICTIONARIES_H
 #define ASSEMBLER_DICTIONARIES_H
 
+#define TRUE 1
+
+extern int error;
+
 typedef enum operations {MOV, CMP, ADD, SUB, LEA, CLR, NOT, INC, DEC, JMP, BNE, RED,
                         PRN, JSR, RTS, STOP, UNKNOWN_COMMAND = -1 } operations;
 
@@ -16,9 +20,9 @@ typedef enum errors {FILE_NOT_FOUND, SYNTAX_ERR, LABEL_SYNTAX, LABEL_LENGTH, EMP
                      MISSING_COMMA_OPERATION, ADDRESS_METHOD_ERROR, NUMBER_OF_OPERANDS_ERROR,
                      METHOD_UNKNOWN_ERROR, NO_ERR = -1} errors;
 
-typedef enum methods {METHOD_IMMEDIATE, METHOD_DIRECT, METHOD_RELATIVE, METHOD_REGISTER, NONE, METHOD_UNKNOWN = -1} methods;
+typedef enum methods {METHOD_IMMEDIATE = 1, METHOD_DIRECT = 2, METHOD_INDIRECT_REGISTER = 4, METHOD_REGISTER = 8, NONE, METHOD_UNKNOWN = -1} methods;
 
-typedef enum fields {EXTERNAL, RELOCATABLE, ABSOLUTE} fields;
+typedef enum fields {EXTERNAL = 1, RELOCATABLE = 2, ABSOLUTE = 4} fields;
 
 operations find_operation(const char* str);
 directives find_directive(const char* str);

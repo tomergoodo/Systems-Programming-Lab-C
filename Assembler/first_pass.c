@@ -6,14 +6,14 @@
 #include <ctype.h>
 #include <string.h>
 #include "dictionaries.h"
-#include "first_pass.h"
 #include "utility.h"
 #include "label_table.h"
+#include "first_pass.h"
 
 
 
 void process_file(FILE* fp){
-    char instruction[MAX_LINE];
+    char instruction[MAX_LINE] = "";
     int line_number = 1;
     while(fgets(instruction, MAX_LINE, fp) != NULL){
         error = NO_ERR;
@@ -27,7 +27,7 @@ void process_file(FILE* fp){
 }
 
 void process_line(char* instruction){
-    char token[MAX_LINE];
+    char token[MAX_LINE] = "";
 
     instruction = skip_spaces(instruction);
 
@@ -61,7 +61,7 @@ void process_line(char* instruction){
 
 
 void handle_directive(char* directive){
-    char token[MAX_LINE];
+    char token[MAX_LINE] = "";
     copy_token(directive,token);
     switch(find_directive(token)){
         case DATA:
@@ -85,7 +85,7 @@ void handle_directive(char* directive){
 }
 
 void handle_data(char * data){
-    char token[MAX_LINE];
+    char token[MAX_LINE] = "";
     copy_token(data,token);
 
     while(!end_of_line(data)){
@@ -150,19 +150,21 @@ void handle_extern(char * label){
 
 
 void handle_label(char* instruction){
-    char label[MAX_LINE];
-    char token[MAX_LINE];
+    char label[MAX_LINE] = "";
+    char token[MAX_LINE] = "";
     copy_token(instruction, label);
     instruction = next_token(instruction);
     copy_token(instruction,token);
     if(find_directive(token) != UNKNOWN_DIRECTIVE){
-        if(isspace(label[strlen(label)-1]))
-            label[strlen(label)-1] = '\0';
+        if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])) {
+            label[strlen(label) - 1] = '\0';
+        }
         add_label(label, dc, FALSE, FALSE, TRUE);
     }
     else if(find_operation(token) != UNKNOWN_COMMAND){
-        if(isspace(label[strlen(label)-1]))
+        if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])){
             label[strlen(label)-1] = '\0';
+        }
         add_label(label, ic+100, FALSE, FALSE, FALSE);
     }
     else if(end_of_line(instruction)){
@@ -218,23 +220,33 @@ int is_label(char * token, int colon){
 
 
 void handle_operation(char* operation){
-    char command[MAX_LINE];
-    int numb_of_operands;
-    char first_op[20],second_op[20];
+    char command[MAX_LINE] = "";
+    int num_of_operands;
+    char first_op[20] = "",second_op[20] = "";
 
     copy_token(operation,command); //get command
     operation = next_token(operation); //operation -> first operator
 
-    numb_of_operands = number_of_operands(find_operation(command));
+    num_of_operands = number_of_operands(find_operation(command));
 
-    if(numb_of_operands){
+    if(!num_of_operands && end_of_line(next_token(operation))){
+        if(!operand_valid_method(find_operation(command), NONE, NONE)){
+            error = ADDRESS_METHOD_ERROR;
+            return;
+        }
+        code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
+        ic += calculate_additional_words(find_operation(command), NONE, NONE);
+        return;
+    }
+
+    if(num_of_operands){
         copy_token(operation,first_op);
-        numb_of_operands--;
+        num_of_operands--;
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(!numb_of_operands && end_of_line(next_token(operation))){
+    if(!num_of_operands && end_of_line(next_token(operation))){
         if(!operand_valid_method(find_operation(command), NONE, find_method(first_op))){
             error = ADDRESS_METHOD_ERROR;
             return;
@@ -245,7 +257,7 @@ void handle_operation(char* operation){
     }
 
     operation = next_token(operation); //operation -> comma
-    if(operation == NULL && numb_of_operands){
+    if(operation == NULL && num_of_operands){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
@@ -256,19 +268,18 @@ void handle_operation(char* operation){
 
     operation = next_token(operation); //operation -> second operator
 
-    if(numb_of_operands){
+    if(num_of_operands){
         copy_token(operation, second_op);
-        numb_of_operands--;
+        num_of_operands--;
     }else if(!end_of_line(operation)){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
-    if(!numb_of_operands && !end_of_line(next_token(operation))){
+    if(!num_of_operands && !end_of_line(next_token(operation))){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-
     if(!operand_valid_method(find_operation(command), find_method(second_op), find_method(first_op))){
         error = ADDRESS_METHOD_ERROR;
         return;
@@ -277,7 +288,7 @@ void handle_operation(char* operation){
     ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
 }
 
-unsigned int encode_first_word(operations opcode, int src, int dest, methods src_method, methods dest_method){
+unsigned int encode_first_word(int opcode, int src, int dest, int src_method, int dest_method){
     unsigned int word = 0;
     word = opcode;
     word <<= METHOD_BITS;
@@ -293,7 +304,7 @@ unsigned int encode_first_word(operations opcode, int src, int dest, methods src
     return word;
 }
 
-unsigned int insert_field(unsigned int word, fields field){
+unsigned int insert_field(unsigned int word, int field){
     word <<= FIELD_BITS;
     word |= field;
     return word;
@@ -303,51 +314,53 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
     switch(type){
     /*
      * mov, add and sub:
-     * src: 0,1,3
-     * dest: 1,3
+     * src: 0,1,2,3
+     * dest: 1,2,3
      */
         case MOV:
         case ADD:
         case SUB:
             return (source_method == METHOD_IMMEDIATE || source_method == METHOD_DIRECT
-                || source_method == METHOD_REGISTER)
-                && (dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER);
+                || source_method == METHOD_INDIRECT_REGISTER|| source_method == METHOD_REGISTER)
+                && (dest_method == METHOD_DIRECT || dest_method == METHOD_INDIRECT_REGISTER
+                || dest_method == METHOD_REGISTER);
     /*
      * cmp:
-     * src: 0,1,3
-     * dest: 0,1,3
+     * src: 0,1,2,3
+     * dest: 0,1,2,3
      */
         case CMP:
             return (source_method == METHOD_IMMEDIATE || source_method == METHOD_DIRECT
-                    || source_method == METHOD_REGISTER)
+                    || source_method == METHOD_INDIRECT_REGISTER|| source_method == METHOD_REGISTER)
                     && (dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT
-                    || dest_method == METHOD_REGISTER);
+                    || dest_method == METHOD_INDIRECT_REGISTER || dest_method == METHOD_REGISTER);
     /*
      * lea:
      * src: 1
-     * dest: 1,3
+     * dest: 1,2,3
      */
         case LEA:
-            return (source_method == METHOD_DIRECT) && (dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER);
+            return (source_method == METHOD_DIRECT) && (dest_method == METHOD_DIRECT || dest_method == METHOD_INDIRECT_REGISTER || dest_method == METHOD_REGISTER);
     /*
      * clr, not, inc, dec, red:
      * no src operand
-     * dest: 1,3
+     * dest: 1,2,3
      */
         case CLR:
         case NOT:
         case INC:
         case DEC:
         case RED:
-            return dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER;
+            return dest_method == METHOD_DIRECT || dest_method == METHOD_INDIRECT_REGISTER || dest_method == METHOD_REGISTER;
 
     /*
      * prn:
      * no src operand
-     * dest: 0,1,3
+     * dest: 0,1,2,3
      */
         case PRN:
-            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT || dest_method == METHOD_REGISTER;
+            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT
+            || dest_method == METHOD_INDIRECT_REGISTER || dest_method == METHOD_REGISTER;
     /*
      * jmp, bne, jsr:
      * no src operand
@@ -356,7 +369,7 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
         case JMP:
         case BNE:
         case JSR:
-            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_RELATIVE;
+            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_INDIRECT_REGISTER;
     /*
      * rts, stop:
      * no src operand

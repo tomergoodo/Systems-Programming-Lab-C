@@ -61,18 +61,21 @@ methods find_method(char* str) {
         return NONE;
     if (*str == 'r') {
         str++;
-        if (atoi(str) >= 0 && atoi(str) <= 7)
+        if (atoi(str) >= 0 && atoi(str) <= 7) {
             return METHOD_REGISTER;
+        }
         str--;
     }
-    if(isalnum(*str)){
+    if(isalpha(*str)){
         return METHOD_DIRECT;
     }
     switch(*str){
         case '#':
             return METHOD_IMMEDIATE;
-        case '&':
-            return METHOD_RELATIVE;
+        case '*':
+            if(find_method(++str) == METHOD_REGISTER)
+                return METHOD_INDIRECT_REGISTER;
     }
+    error = METHOD_UNKNOWN_ERROR;
     return METHOD_UNKNOWN;
 }
