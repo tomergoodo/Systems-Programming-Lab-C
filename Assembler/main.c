@@ -7,6 +7,7 @@
 #include "utility.h"
 #include "dictionaries.h"
 #include "first_pass.h"
+#include "second_pass.h"
 
 void handle_file(char * filename);
 void set_parameters();
@@ -35,7 +36,12 @@ void handle_file(char * filename){
         return;
     }
     process_file(fp);
-    printf("Finished processing %s\n",filename);
+    if(error_flag){
+        printf("Finished %s first-pass processing successfully\n",filename);
+        second_pass(fp, filename);
+    }
+    else
+        printf("Finished %s first-pass processing. Errors have been detected.\n",filename);
     fclose(fp);
 }
 

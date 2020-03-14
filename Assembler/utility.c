@@ -100,6 +100,9 @@ void write_error(int line_number){
         case METHOD_UNKNOWN_ERROR:
             fprintf(stderr, "Unrecognized addressing method.\n");
             break;
+        case ENTRY_NOT_FOUND:
+            fprintf(stderr, "Entry-declared label was not found in file.\n");
+            break;
 
     }
 }

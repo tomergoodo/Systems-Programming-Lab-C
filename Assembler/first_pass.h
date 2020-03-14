@@ -14,10 +14,11 @@
 
 
 extern int error;
+extern int error_flag;
 extern int ic;
 extern int dc;
-extern unsigned int data [2000];
-extern unsigned int code [2000];
+extern unsigned int data[];
+extern unsigned int code[];
 
 void process_file(FILE* fp);
 void process_line(char* instruction);

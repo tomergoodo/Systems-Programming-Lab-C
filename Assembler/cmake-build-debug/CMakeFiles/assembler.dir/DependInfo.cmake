@@ -4,14 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/tomer/Desktop/University/Assembler/dictionaries.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/dictionaries.c.o"
-  "/home/tomer/Desktop/University/Assembler/first_pass.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/first_pass.c.o"
-  "/home/tomer/Desktop/University/Assembler/label_table.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/label_table.c.o"
-  "/home/tomer/Desktop/University/Assembler/main.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/main.c.o"
-  "/home/tomer/Desktop/University/Assembler/second_pass.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/second_pass.c.o"
-  "/home/tomer/Desktop/University/Assembler/utility.c" "/home/tomer/Desktop/University/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/utility.c.o"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/dictionaries.c.obj"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/first_pass.c.obj"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/label_table.c.obj"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/main.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/main.c.obj"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/second_pass.c.obj"
+  "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.c" "C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/cmake-build-debug/CMakeFiles/assembler.dir/utility.c.obj"
   )
-set(CMAKE_C_COMPILER_ID "GNU")
+set(CMAKE_C_COMPILER_ID "MSVC")
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH

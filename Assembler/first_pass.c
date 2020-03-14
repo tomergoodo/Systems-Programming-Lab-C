@@ -42,7 +42,7 @@ void process_line(char* instruction){
         handle_label(instruction);
         instruction = next_token(instruction);
         copy_token(instruction, token);
-        if(find_directive(token) == ENTRY)
+        if(find_directive(token) == ENTRY || find_directive(token) == EXTERN)
             remove_last_label();
     }
     if(is_error())
@@ -198,7 +198,7 @@ int is_label(char * token, int colon){
 
     if(colon) token[strlen(token)-1] = '\0';
 
-    if(colon && find_label(token)){
+    if(colon && find_label(token) != NULL){
         error = LABEL_DOUBLE_DEFINITION;
         return FALSE;
     }
@@ -230,10 +230,6 @@ void handle_operation(char* operation){
     num_of_operands = number_of_operands(find_operation(command));
 
     if(!num_of_operands && end_of_line(next_token(operation))){
-        if(!operand_valid_method(find_operation(command), NONE, NONE)){
-            error = ADDRESS_METHOD_ERROR;
-            return;
-        }
         code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
@@ -431,5 +427,6 @@ int calculate_additional_words(operations type, methods src_method, methods dest
 int is_error(){
     if(error == NO_ERR)
         return FALSE;
+    error_flag = TRUE;
     return TRUE;
 }

@@ -6,25 +6,27 @@
 #include <stdarg.h>
 #include <string.h>
 #include "label_table.h"
+#include "dictionaries.h"
 
 struct label_table{
     char label[MAX_LINE];
     unsigned int address;
     int is_directive;
     int is_extern;
+    int entry;
     struct label_table * next;
 };
 
-int find_label(char * label){
+label_table * find_label(char * label){
     label_table *p = table_head;
     if(table_head == NULL)
-        return FALSE;
+        return NULL;
     while(p != NULL){
         if(strcmp(p->label, label) == 0)
-            return TRUE;
+            return p;
         p = p->next;
     }
-    return FALSE;
+    return NULL;
 }
 
 void add_label(const char * name, const unsigned int address, const int is_extern, ...){
@@ -37,6 +39,7 @@ void add_label(const char * name, const unsigned int address, const int is_exter
         strcpy(table_head->label, name);
         table_head->address = address;
         table_head->is_directive = va_arg(list, int);
+        table_head->entry = FALSE;
         return;
     }
     while(p->next != NULL)
@@ -48,7 +51,7 @@ void add_label(const char * name, const unsigned int address, const int is_exter
     p->address = address;
     p->is_extern = is_extern;
     p->is_directive = va_arg(list, int);
-
+    p->entry = FALSE;
     va_end(list);
 }
 
@@ -75,4 +78,30 @@ void update_label_table(){
             p->address += ic+100;
         p = p->next;
     }
+}
+
+void handle_entry(char * label){
+    label_table * p = table_head;
+    int flag = FALSE;
+    if(table_head == NULL){
+        error = ENTRY_NOT_FOUND;
+        return;
+    }
+    while(p != NULL) {
+        if(strcmp(p->label, label) == 0){
+            p->entry = TRUE;
+            flag = TRUE;
+        }
+        p = p->next;
+    }
+    if(!flag)
+        error = ENTRY_NOT_FOUND;
+}
+
+int get_address(label_table *p){
+    return p->address;
+}
+
+int get_extern(label_table *p){
+    return p->is_extern;
 }
