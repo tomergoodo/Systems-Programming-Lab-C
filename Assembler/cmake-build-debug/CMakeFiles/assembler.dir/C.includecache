@@ -6,17 +6,73 @@
 
 #IncludeRegexTransform: 
 
-/home/tomer/Desktop/University/Assembler/dictionaries.h
-
-/home/tomer/Desktop/University/Assembler/first_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.c
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+ctype.h
+-
+utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.c
+stdio.h
+-
+stdlib.h
+-
+ctype.h
+-
+string.h
+-
+utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+first_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 label_table.h
-/home/tomer/Desktop/University/Assembler/label_table.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
 
-/home/tomer/Desktop/University/Assembler/label_table.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.c
+stdio.h
+-
+stdlib.h
+-
+stdarg.h
+-
+string.h
+-
+label_table.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 
-/home/tomer/Desktop/University/Assembler/second_pass.c
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/main.c
+stdio.h
+-
+utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+first_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+second_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
+label_table.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.c
 stdio.h
 -
 stdlib.h
@@ -24,19 +80,19 @@ stdlib.h
 ctype.h
 -
 first_pass.h
-/home/tomer/Desktop/University/Assembler/first_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
 dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 second_pass.h
-/home/tomer/Desktop/University/Assembler/second_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
 
-/home/tomer/Desktop/University/Assembler/second_pass.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
 label_table.h
-/home/tomer/Desktop/University/Assembler/label_table.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
 
-/home/tomer/Desktop/University/Assembler/utility.c
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.c
 stdio.h
 -
 stdlib.h
@@ -46,9 +102,9 @@ string.h
 ctype.h
 -
 utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 
-/home/tomer/Desktop/University/Assembler/utility.h
+C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
 

@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/assembler.dir/main.c.o CMakeFiles/assembler.dir/dictionaries.c.o CMakeFiles/assembler.dir/first_pass.c.o CMakeFiles/assembler.dir/label_table.c.o CMakeFiles/assembler.dir/second_pass.c.o CMakeFiles/assembler.dir/utility.c.o  -o assembler 
