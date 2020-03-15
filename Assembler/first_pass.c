@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "dictionaries.h"
 #include "utility.h"
 #include "label_table.h"
 #include "first_pass.h"
@@ -77,6 +76,7 @@ void handle_directive(char* directive){
             handle_extern(directive);
             break;
         case ENTRY:
+            entry_flag = TRUE;
             break;
         case UNKNOWN_DIRECTIVE:
             error = DIRECTIVE_NOT_FOUND;
@@ -141,10 +141,11 @@ void handle_string(char * string){
 }
 
 void handle_extern(char * label){
+    extern_flag = TRUE;
     if(is_label(label,FALSE)){
         if(isspace(label[strlen(label)-1]))
             label[strlen(label)-1] = '\0';
-        add_label(label,0,TRUE);
+        add_label(table_head, label,0,TRUE);
     }
 }
 
@@ -159,13 +160,13 @@ void handle_label(char* instruction){
         if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])) {
             label[strlen(label) - 1] = '\0';
         }
-        add_label(label, dc, FALSE, FALSE, TRUE);
+        add_label(table_head, label, dc, FALSE, FALSE, TRUE);
     }
     else if(find_operation(token) != UNKNOWN_COMMAND){
         if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])){
             label[strlen(label)-1] = '\0';
         }
-        add_label(label, ic+100, FALSE, FALSE, FALSE);
+        add_label(table_head, label, ic+100, FALSE, FALSE, FALSE);
     }
     else if(end_of_line(instruction)){
         error = EMPTY_LABEL_LINE;
@@ -297,12 +298,6 @@ unsigned int encode_first_word(int opcode, int src, int dest, int src_method, in
         word |= src_method;
     }
     word = insert_field(word, ABSOLUTE);
-    return word;
-}
-
-unsigned int insert_field(unsigned int word, int field){
-    word <<= FIELD_BITS;
-    word |= field;
     return word;
 }
 

@@ -8,16 +8,7 @@
 #include "label_table.h"
 #include "dictionaries.h"
 
-struct label_table{
-    char label[MAX_LINE];
-    unsigned int address;
-    int is_directive;
-    int is_extern;
-    int entry;
-    struct label_table * next;
-};
-
-label_table * find_label(char * label){
+label_table * find_label(const char * label){
     label_table *p = table_head;
     if(table_head == NULL)
         return NULL;
@@ -29,17 +20,17 @@ label_table * find_label(char * label){
     return NULL;
 }
 
-void add_label(const char * name, const unsigned int address, const int is_extern, ...){
-    label_table * p = table_head;
+void add_label(label_table* head, const char * name, const unsigned int address, const int is_extern, ...){
+    label_table * p = head;
     va_list list;
     va_start(list, is_extern);
-    if(table_head == NULL){
-        table_head =(label_table*)malloc(sizeof(label_table));
-        table_head->next = NULL;
-        strcpy(table_head->label, name);
-        table_head->address = address;
-        table_head->is_directive = va_arg(list, int);
-        table_head->entry = FALSE;
+    if(head == NULL){
+        head =(label_table*)malloc(sizeof(label_table));
+        head->next = NULL;
+        strcpy(head->label, name);
+        head->address = address;
+        head->is_directive = va_arg(list, int);
+        head->entry = FALSE;
         return;
     }
     while(p->next != NULL)
@@ -80,7 +71,7 @@ void update_label_table(){
     }
 }
 
-void handle_entry(char * label){
+void set_entry(const char * label){
     label_table * p = table_head;
     int flag = FALSE;
     if(table_head == NULL){
@@ -98,10 +89,10 @@ void handle_entry(char * label){
         error = ENTRY_NOT_FOUND;
 }
 
-int get_address(label_table *p){
+int get_address(const label_table *p){
     return p->address;
 }
 
-int get_extern(label_table *p){
+int get_extern(const label_table *p){
     return p->is_extern;
 }

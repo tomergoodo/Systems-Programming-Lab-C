@@ -17,6 +17,7 @@ CMakeFiles\assembler.dir\label_table.c.obj: ..\label_table.h
 
 CMakeFiles\assembler.dir\main.c.obj: ..\dictionaries.h
 CMakeFiles\assembler.dir\main.c.obj: ..\first_pass.h
+CMakeFiles\assembler.dir\main.c.obj: ..\label_table.h
 CMakeFiles\assembler.dir\main.c.obj: ..\main.c
 CMakeFiles\assembler.dir\main.c.obj: ..\second_pass.h
 CMakeFiles\assembler.dir\main.c.obj: ..\utility.h

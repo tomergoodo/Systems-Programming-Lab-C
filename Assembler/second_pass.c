@@ -7,8 +7,6 @@
 #include "dictionaries.h"
 #include "utility.h"
 #include "second_pass.h"
-#include "label_table.h"
-
 
 void second_pass(FILE * fp, char *filename){
     char instruction[MAX_LINE] = "";
@@ -55,6 +53,9 @@ void process_line_second_pass(char * instruction){
         return;
 }
 
+void handle_entry(char * label){
+    set_entry(label);
+}
 
 void handle_encoding(char *instruction, operations type){
     char first_op[20] = "", second_op[20] = "";
@@ -119,8 +120,10 @@ unsigned int encode_label(char *label){
     int address;
     address = get_address(find_label(label));
     word |= address;
-    if(get_extern(find_label(label)))
+    if(get_extern(find_label(label))){
+        add_label(extern_table_head, label, ic, TRUE);
         insert_field(word, EXTERN);
+    }
     else
         insert_field(word, RELOCATABLE);
     return word;
@@ -128,5 +131,50 @@ unsigned int encode_label(char *label){
 
 
 void build_output_files(char *filename){
+    build_object_file(filename);
+    if(extern_flag)
+        build_extern_file(filename);
+    if(entry_flag)
+        build_entry_file(filename);
+}
 
+void build_object_file(char *filename){
+    int line=100;
+    int count=0;
+    filename = add_extension(filename,".ob");
+    FILE *fp = fopen(filename, "w");
+    fprintf(fp, "\t%d %d\n",ic,dc);
+    while(ic--){
+        fprintf(fp,"%d  %d\n",line++,dec_to_octal(code[count++]));
+    }
+    count=0;
+    while(dc--){
+        fprintf(fp, "%d %d\n",line++,dec_to_octal(data[count++]));
+    }
+    printf("%s was created.\n",filename);
+    fclose(fp);
+}
+
+void build_extern_file(char *filename){
+    extern_table *p = extern_table_head;
+    filename = add_extension(filename,".ext");
+    FILE *fp = fopen(filename, "w");
+    while(p != NULL){
+        fprintf(fp,"%s\t%s",p->label,dec_to_octal(p->address));
+        p = p->next;
+    }
+
+    fclose(fp);
+}
+
+void build_entry_file(char *filename){
+    label_table *p = table_head;
+    filename = add_extension(filename,".ent");
+    FILE *fp = fopen(filename, "w");
+    while(p!=NULL){
+        if(p->entry)
+            fprintf(fp,"%s\t%s",p->label,dec_to_octal(p->address));
+        p = p->next;
+    }
+    fclose(fp);
 }

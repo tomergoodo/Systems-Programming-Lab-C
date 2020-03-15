@@ -6,8 +6,9 @@
 #define ASSEMBLER_UTILITY_H
 #define MAX_LINE 120
 #define MAX_LABEL_LENGTH_FULL 32
+#define FIELD_BITS 3
 
-char *add_extension(char * filename);
+char *add_extension(char * filename, char* extension);
 
 char *next_token(char *seq);
 
@@ -21,4 +22,7 @@ char *skip_spaces(char * ptr);
 
 int ignore_line (char * line);
 
+unsigned int insert_field(unsigned int word, int field);
+
+unsigned int dec_to_octal(unsigned int dec);
 #endif //ASSEMBLER_UTILITY_H

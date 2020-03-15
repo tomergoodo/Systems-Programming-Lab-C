@@ -10,9 +10,8 @@
 
 extern int error;
 
-char * add_extension(char *filename){
+char * add_extension(char *filename, char* extension){
     char * extended_filename = (char*)malloc(strlen(filename)+3);
-    char * extension = ".as";
     strcpy(extended_filename,filename);
     return strncat(extended_filename,extension,3);
 }
@@ -103,6 +102,9 @@ void write_error(int line_number){
         case ENTRY_NOT_FOUND:
             fprintf(stderr, "Entry-declared label was not found in file.\n");
             break;
+        case LABEL_NOT_FOUND:
+            fprintf(stderr, "Label was not declared in file.\n");
+            break;
 
     }
 }
@@ -123,4 +125,21 @@ char * skip_spaces(char *ptr){
 int ignore_line(char *line){
     line = skip_spaces(line);
     return *line == ';' || *line == '\n' || *line == '\0';
+}
+
+unsigned int insert_field(unsigned int word, int field){
+    word <<= FIELD_BITS;
+    word |= field;
+    return word;
+}
+
+unsigned int dec_to_octal(unsigned int dec){
+    unsigned int octal = 0, i = 1;
+    while (dec != 0){
+        octal += (dec % 8) * i;
+        dec /= 8;
+        i *= 10;
+    }
+
+    return octal;
 }
