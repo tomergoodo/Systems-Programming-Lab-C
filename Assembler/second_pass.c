@@ -66,17 +66,19 @@ void handle_encoding(char *instruction, operations type){
         case 1:
             copy_token(next_token(instruction),first_op);
             code[++ic] = encode_word(first_op);
+            ic++;
             return;
         case 2:
             copy_token(next_token(instruction),first_op);
             copy_token(next_token(next_token(next_token(instruction))),second_op);
             if((find_method(first_op) == METHOD_REGISTER || find_method(first_op) == METHOD_INDIRECT_REGISTER)
                 && (find_method(second_op) == METHOD_REGISTER || find_method(second_op) == METHOD_INDIRECT_REGISTER)){
-                code[++ic] = encode_word_registers(first_op, second_op, ABSOLUTE);
+                code[++ic] = encode_word_registers(second_op, first_op,ABSOLUTE);
             }else{
                 code[++ic] = encode_word(first_op);
                 code[++ic] = encode_word(second_op);
             }
+            ic++;
             return;
     }
 }
@@ -85,8 +87,8 @@ unsigned int encode_word(char *operand){
     unsigned int word =0;
     switch (find_method(operand)){
         case METHOD_IMMEDIATE:
-            word |= atoi(operand);
-            insert_field(word, ABSOLUTE);
+            word |= atoi(++operand);
+            word = insert_field(word, ABSOLUTE);
             return word;
         case METHOD_DIRECT:
             if(find_label(operand) == NULL){
@@ -95,9 +97,9 @@ unsigned int encode_word(char *operand){
             }
             return encode_label(operand);
         case METHOD_REGISTER:
-            return encode_word_registers(operand, NULL, ABSOLUTE);
+            return encode_word_registers(NULL, operand, ABSOLUTE);
         case METHOD_INDIRECT_REGISTER:
-            return encode_word_registers(operand, NULL, RELOCATABLE);
+            return encode_word_registers(NULL, operand, RELOCATABLE);
     }
     return word;
 }
@@ -105,13 +107,15 @@ unsigned int encode_word(char *operand){
 unsigned int encode_word_registers(char *reg1, char *reg2, fields field){
     unsigned int word = 0;
     word |= find_register(reg1);
-    word << REGISTER_BITS;
+    word <<= REGISTER_BITS;
     word |= find_register(reg2);
-    insert_field(word, field);
+    word = insert_field(word, field);
     return word;
 }
 
 int find_register(char *reg){
+    if(reg == NULL)
+        return 0;
     return atoi(++reg);
 }
 
@@ -122,10 +126,10 @@ unsigned int encode_label(char *label){
     word |= address;
     if(get_extern(find_label(label))){
         add_label(extern_table_head, label, ic, TRUE);
-        insert_field(word, EXTERN);
+        word = insert_field(word, EXTERN);
     }
     else
-        insert_field(word, RELOCATABLE);
+        word = insert_field(word, RELOCATABLE);
     return word;
 }
 
@@ -143,13 +147,13 @@ void build_object_file(char *filename){
     int count=0;
     filename = add_extension(filename,".ob");
     FILE *fp = fopen(filename, "w");
-    fprintf(fp, "\t%d %d\n",ic,dc);
+    fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
-        fprintf(fp,"%d  %d\n",line++,dec_to_octal(code[count++]));
+        fprintf(fp,"%04d  %05d\n",line++,dec_to_octal(code[count++]));
     }
     count=0;
     while(dc--){
-        fprintf(fp, "%d %d\n",line++,dec_to_octal(data[count++]));
+        fprintf(fp, "%04d %05d\n",line++,dec_to_octal(data[count++]));
     }
     printf("%s was created.\n",filename);
     fclose(fp);
@@ -160,10 +164,10 @@ void build_extern_file(char *filename){
     filename = add_extension(filename,".ext");
     FILE *fp = fopen(filename, "w");
     while(p != NULL){
-        fprintf(fp,"%s\t%s",p->label,dec_to_octal(p->address));
+        fprintf(fp,"%s\t%05d",p->label,dec_to_octal(p->address));
         p = p->next;
     }
-
+    printf("%s was created.\n",filename);
     fclose(fp);
 }
 
@@ -173,8 +177,9 @@ void build_entry_file(char *filename){
     FILE *fp = fopen(filename, "w");
     while(p!=NULL){
         if(p->entry)
-            fprintf(fp,"%s\t%s",p->label,dec_to_octal(p->address));
+            fprintf(fp,"%s\t%05d",p->label,dec_to_octal(p->address));
         p = p->next;
     }
+    printf("%s was created.\n",filename);
     fclose(fp);
 }

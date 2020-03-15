@@ -30,8 +30,9 @@ int main(int argc, char* argv[]){
 
 void handle_file(char * filename){
     FILE *fp;
-    filename = add_extension(filename,".as");
-    fp = fopen(filename,"r");
+    char * extended_filename;
+    extended_filename = add_extension(filename,".as");
+    fp = fopen(extended_filename,"r");
     if(fp == NULL) {
         error = FILE_NOT_FOUND;
         fprintf(stderr, "File %s was not found\n", filename);
@@ -39,10 +40,11 @@ void handle_file(char * filename){
     }
     process_file(fp);
     if(!error_flag){
-        printf("Finished %s first-pass processing successfully\n",filename);
+        printf("Finished first-pass processing successfully\n");
+        rewind(fp);
         second_pass(fp, filename);
         if(!error_flag){
-            printf("Finished %s second-pass processing successfully\n",filename);
+            printf("Finished second-pass processing successfully\n");
         }
     }
     else
