@@ -20,17 +20,18 @@ label_table * find_label(const char * label){
     return NULL;
 }
 
-void add_label(label_table* head, const char * name, const unsigned int address, const int is_extern, ...){
-    label_table * p = head;
+void add_label(label_table** head, const char * name, const unsigned int address, const int is_extern, ...){
+    label_table * p = *head;
     va_list list;
     va_start(list, is_extern);
-    if(head == NULL){
-        head =(label_table*)malloc(sizeof(label_table));
-        head->next = NULL;
-        strcpy(head->label, name);
-        head->address = address;
-        head->is_directive = va_arg(list, int);
-        head->entry = FALSE;
+    if(*head == NULL){
+        *head =(label_table*)malloc(sizeof(label_table));
+        (*head)->next = NULL;
+        strcpy((*head)->label, name);
+        (*head)->address = address;
+        (*head)->is_directive = va_arg(list, int);
+        (*head)->is_extern = is_extern;
+        (*head)->entry = FALSE;
         return;
     }
     while(p->next != NULL)
@@ -64,8 +65,6 @@ void update_label_table(){
         return;
     while(p != NULL) {
         if(p->is_directive)
-            p->address += 100;
-        if(!p->is_directive)
             p->address += ic+100;
         p = p->next;
     }

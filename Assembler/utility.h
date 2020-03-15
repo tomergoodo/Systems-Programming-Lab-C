@@ -8,7 +8,7 @@
 #define MAX_LABEL_LENGTH_FULL 32
 #define FIELD_BITS 3
 
-char *add_extension(char * filename, char* extension);
+char * add_extension(char *filename, char* extension, int length);
 
 char *next_token(char *seq);
 

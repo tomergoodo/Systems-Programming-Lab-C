@@ -10,10 +10,10 @@
 
 extern int error;
 
-char * add_extension(char *filename, char* extension){
-    char * extended_filename = (char*)malloc(strlen(filename)+3);
+char * add_extension(char *filename, char* extension, int length){
+    char * extended_filename = (char*)malloc(strlen(filename)+length);
     strcpy(extended_filename,filename);
-    return strncat(extended_filename,extension,3);
+    return strncat(extended_filename,extension,length);
 }
 
 char * next_token(char *seq){

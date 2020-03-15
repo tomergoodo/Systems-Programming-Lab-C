@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "first_pass.h"
 #include "dictionaries.h"
 #include "utility.h"
@@ -34,6 +35,7 @@ void process_line_second_pass(char * instruction){
     copy_token(instruction, token);
 
     if(is_label(token, TRUE)){
+        error = NO_ERR;
         instruction = next_token(instruction);
         copy_token(instruction, token);
     }
@@ -59,13 +61,14 @@ void handle_entry(char * label){
 
 void handle_encoding(char *instruction, operations type){
     char first_op[20] = "", second_op[20] = "";
+    unsigned int word;
     switch(number_of_operands(type)){
         case 0:
             ic++;
             return;
         case 1:
             copy_token(next_token(instruction),first_op);
-            code[++ic] = encode_word(first_op);
+            code[++ic] = encode_word(first_op, TRUE);
             ic++;
             return;
         case 2:
@@ -73,18 +76,19 @@ void handle_encoding(char *instruction, operations type){
             copy_token(next_token(next_token(next_token(instruction))),second_op);
             if((find_method(first_op) == METHOD_REGISTER || find_method(first_op) == METHOD_INDIRECT_REGISTER)
                 && (find_method(second_op) == METHOD_REGISTER || find_method(second_op) == METHOD_INDIRECT_REGISTER)){
-                code[++ic] = encode_word_registers(second_op, first_op,ABSOLUTE);
+                code[++ic] = encode_word_registers(first_op, second_op,ABSOLUTE);
             }else{
-                code[++ic] = encode_word(first_op);
-                code[++ic] = encode_word(second_op);
+                code[++ic] = encode_word(first_op, FALSE);
+                code[++ic] = encode_word(second_op, TRUE);
             }
             ic++;
             return;
     }
 }
 
-unsigned int encode_word(char *operand){
+unsigned int encode_word(char *operand, int dest){
     unsigned int word =0;
+    unsigned int tmp=0;
     switch (find_method(operand)){
         case METHOD_IMMEDIATE:
             word |= atoi(++operand);
@@ -97,9 +101,15 @@ unsigned int encode_word(char *operand){
             }
             return encode_label(operand);
         case METHOD_REGISTER:
-            return encode_word_registers(NULL, operand, ABSOLUTE);
+            if(dest)
+                return encode_word_registers(NULL, operand, ABSOLUTE);
+            else
+                return encode_word_registers(operand, NULL, ABSOLUTE);
         case METHOD_INDIRECT_REGISTER:
-            return encode_word_registers(NULL, operand, RELOCATABLE);
+            if(dest)
+                return encode_word_registers(NULL, operand, ABSOLUTE);
+            else
+                return encode_word_registers(operand, NULL, ABSOLUTE);
     }
     return word;
 }
@@ -116,7 +126,10 @@ unsigned int encode_word_registers(char *reg1, char *reg2, fields field){
 int find_register(char *reg){
     if(reg == NULL)
         return 0;
-    return atoi(++reg);
+    if(isdigit(*++reg))
+        return atoi(reg);
+    else
+        return atoi(++reg);
 }
 
 unsigned int encode_label(char *label){
@@ -125,8 +138,8 @@ unsigned int encode_label(char *label){
     address = get_address(find_label(label));
     word |= address;
     if(get_extern(find_label(label))){
-        add_label(extern_table_head, label, ic, TRUE);
-        word = insert_field(word, EXTERN);
+        add_label(&extern_table_head, label, ic+100, TRUE);
+        word = insert_field(word, EXTERNAL);
     }
     else
         word = insert_field(word, RELOCATABLE);
@@ -145,7 +158,7 @@ void build_output_files(char *filename){
 void build_object_file(char *filename){
     int line=100;
     int count=0;
-    filename = add_extension(filename,".ob");
+    filename = add_extension(filename,".ob",3);
     FILE *fp = fopen(filename, "w");
     fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
@@ -153,18 +166,18 @@ void build_object_file(char *filename){
     }
     count=0;
     while(dc--){
-        fprintf(fp, "%04d %05d\n",line++,dec_to_octal(data[count++]));
+        fprintf(fp, "%04d  %05d\n",line++,dec_to_octal(data[count++]));
     }
     printf("%s was created.\n",filename);
     fclose(fp);
 }
 
 void build_extern_file(char *filename){
-    extern_table *p = extern_table_head;
-    filename = add_extension(filename,".ext");
+    label_table *p = extern_table_head;
+    filename = add_extension(filename,".ext",4);
     FILE *fp = fopen(filename, "w");
     while(p != NULL){
-        fprintf(fp,"%s\t%05d",p->label,dec_to_octal(p->address));
+        fprintf(fp,"%s\t%05d\n",p->label,p->address);
         p = p->next;
     }
     printf("%s was created.\n",filename);
@@ -173,11 +186,11 @@ void build_extern_file(char *filename){
 
 void build_entry_file(char *filename){
     label_table *p = table_head;
-    filename = add_extension(filename,".ent");
+    filename = add_extension(filename,".ent",4);
     FILE *fp = fopen(filename, "w");
     while(p!=NULL){
         if(p->entry)
-            fprintf(fp,"%s\t%05d",p->label,dec_to_octal(p->address));
+            fprintf(fp,"%s\t%05d\n",p->label,p->address);
         p = p->next;
     }
     printf("%s was created.\n",filename);

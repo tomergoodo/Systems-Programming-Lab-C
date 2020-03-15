@@ -6,6 +6,7 @@
 #define ASSEMBLER_FIRST_PASS_H
 
 #include "dictionaries.h"
+#include "label_table.h"
 
 #define MAX_LINE 120
 #define TRUE 1
@@ -23,6 +24,8 @@ extern int ic;
 extern int dc;
 extern unsigned int data[];
 extern unsigned int code[];
+extern label_table *extern_table_head;
+extern label_table *table_head;
 
 void process_file(FILE* fp);
 void process_line(char* instruction);

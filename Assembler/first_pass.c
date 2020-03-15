@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include <string.h>
 #include "utility.h"
-#include "label_table.h"
 #include "first_pass.h"
 
 
@@ -145,7 +144,7 @@ void handle_extern(char * label){
     if(is_label(label,FALSE)){
         if(isspace(label[strlen(label)-1]))
             label[strlen(label)-1] = '\0';
-        add_label(table_head, label,0,TRUE);
+        add_label(&table_head, label,0,TRUE, FALSE);
     }
 }
 
@@ -160,13 +159,13 @@ void handle_label(char* instruction){
         if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])) {
             label[strlen(label) - 1] = '\0';
         }
-        add_label(table_head, label, dc, FALSE, FALSE, TRUE);
+        add_label(&table_head, label, dc, FALSE, TRUE);
     }
     else if(find_operation(token) != UNKNOWN_COMMAND){
         if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])){
             label[strlen(label)-1] = '\0';
         }
-        add_label(table_head, label, ic+100, FALSE, FALSE, FALSE);
+        add_label(&table_head, label, ic+100, FALSE, FALSE);
     }
     else if(end_of_line(instruction)){
         error = EMPTY_LABEL_LINE;
@@ -201,7 +200,7 @@ int is_label(char * token, int colon){
 
     if(colon && find_label(token) != NULL){
         error = LABEL_DOUBLE_DEFINITION;
-        return FALSE;
+        return TRUE;
     }
 
     if(find_operation(token) != UNKNOWN_COMMAND){
@@ -248,7 +247,7 @@ void handle_operation(char* operation){
             error = ADDRESS_METHOD_ERROR;
             return;
         }
-        code[ic] = encode_first_word(find_operation(command), TRUE, FALSE, find_method(first_op), 0);
+        code[ic] = encode_first_word(find_operation(command), FALSE, TRUE, 0, find_method(first_op));
         ic += calculate_additional_words(find_operation(command), NONE, find_method(first_op));
         return;
     }
@@ -277,12 +276,12 @@ void handle_operation(char* operation){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(!operand_valid_method(find_operation(command), find_method(second_op), find_method(first_op))){
+    if(!operand_valid_method(find_operation(command), find_method(first_op), find_method(second_op))){
         error = ADDRESS_METHOD_ERROR;
         return;
     }
-    code[ic] = encode_first_word(find_operation(command), TRUE, TRUE, find_method(second_op), find_method(first_op));
-    ic += calculate_additional_words(find_operation(command), find_method(second_op), find_method(first_op));
+    code[ic] = encode_first_word(find_operation(command), TRUE, TRUE, find_method(first_op),find_method(second_op));
+    ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
 }
 
 unsigned int encode_first_word(int opcode, int src, int dest, int src_method, int dest_method){
@@ -292,16 +291,19 @@ unsigned int encode_first_word(int opcode, int src, int dest, int src_method, in
     if(src && dest)
         word |= src_method;
     word <<= METHOD_BITS;
-    if(src && dest)
+    if(dest)
         word |= dest_method;
-    else if (src){
-        word |= src_method;
-    }
     word = insert_field(word, ABSOLUTE);
     return word;
 }
 
 int operand_valid_method(operations type, methods source_method, methods dest_method){
+    /*
+     * 0: IMMEDIATE
+     * 1: DIRECT
+     * 2: INDIRECT REGISTER
+     * 3: REGISTER
+     */
     switch(type){
     /*
      * mov, add and sub:
@@ -360,7 +362,7 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
         case JMP:
         case BNE:
         case JSR:
-            return dest_method == METHOD_IMMEDIATE || dest_method == METHOD_INDIRECT_REGISTER;
+            return dest_method == METHOD_DIRECT || dest_method == METHOD_INDIRECT_REGISTER;
     /*
      * rts, stop:
      * no src operand
@@ -406,15 +408,15 @@ int number_of_operands(operations type){
 
 int calculate_additional_words(operations type, methods src_method, methods dest_method){
     int words = 1, register_flag = FALSE;
-    if(src_method != METHOD_REGISTER && src_method != NONE && src_method != METHOD_UNKNOWN)
+    if(src_method == METHOD_IMMEDIATE || src_method == METHOD_DIRECT)
         words++;
-    else if(src_method == METHOD_REGISTER){
+    else if(src_method == METHOD_REGISTER || src_method == METHOD_INDIRECT_REGISTER){
         register_flag = TRUE;
         words++;
     }
-    if(dest_method != METHOD_REGISTER && dest_method != NONE && dest_method != METHOD_UNKNOWN)
+    if(dest_method == METHOD_IMMEDIATE || dest_method == METHOD_DIRECT)
         words++;
-    else if(dest_method == METHOD_REGISTER && !register_flag)
+    else if((dest_method == METHOD_REGISTER || dest_method == METHOD_INDIRECT_REGISTER) && !register_flag)
         words++;
     return words;
 }

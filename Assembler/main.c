@@ -7,6 +7,7 @@
 #include "dictionaries.h"
 #include "first_pass.h"
 #include "second_pass.h"
+#include "label_table.h"
 
 void handle_file(char * filename);
 void set_parameters();
@@ -16,6 +17,8 @@ int extern_flag = FALSE;
 int entry_flag = FALSE;
 int ic;
 int dc;
+label_table *table_head;
+label_table *extern_table_head;
 unsigned int data [2000];
 unsigned int code [2000];
 
@@ -31,7 +34,7 @@ int main(int argc, char* argv[]){
 void handle_file(char * filename){
     FILE *fp;
     char * extended_filename;
-    extended_filename = add_extension(filename,".as");
+    extended_filename = add_extension(filename,".as",3);
     fp = fopen(extended_filename,"r");
     if(fp == NULL) {
         error = FILE_NOT_FOUND;
