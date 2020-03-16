@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdarg.h>
+#include <string.h>
 #include "first_pass.h"
 #include "dictionaries.h"
 #include "utility.h"
@@ -158,21 +160,30 @@ void build_output_files(char *filename){
 void build_object_file(char *filename){
     int line=100;
     int count=0;
+    char tmp[MAX_LINE];
+    char *p;
     filename = add_extension(filename,".ob",3);
     FILE *fp = fopen(filename, "w");
     fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
-        fprintf(fp,"%04d  %05d\n",line++,dec_to_octal(code[count++]));
+        p=tmp;
+        snprintf(tmp, MAX_LINE, "%05ho", code[count++]);
+        p += strlen(tmp)-5;
+        fprintf(fp,"%04d  %.5s\n",line++,p);
     }
     count=0;
     while(dc--){
-        fprintf(fp, "%04d  %05d\n",line++,dec_to_octal(data[count++]));
+        p=tmp;
+        snprintf(tmp, MAX_LINE,"%05ho", data[count++]);
+        p += strlen(tmp)-5;
+        fprintf(fp, "%04d  %.5s\n",line++,p);
     }
     printf("%s was created.\n",filename);
     fclose(fp);
 }
 
 void build_extern_file(char *filename){
+
     label_table *p = extern_table_head;
     filename = add_extension(filename,".ext",4);
     FILE *fp = fopen(filename, "w");

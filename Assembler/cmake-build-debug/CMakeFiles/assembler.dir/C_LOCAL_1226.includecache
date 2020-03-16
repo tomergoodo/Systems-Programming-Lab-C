@@ -79,10 +79,6 @@ stdlib.h
 -
 ctype.h
 -
-stdarg.h
--
-string.h
--
 first_pass.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
 dictionaries.h
@@ -96,7 +92,6 @@ C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pas
 label_table.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
 
-<<<<<<< HEAD
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.c
 stdio.h
 -
@@ -112,23 +107,4 @@ dictionaries.h
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
 
 C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
-||||||| d7d4c4c
-/home/tomer/Desktop/University/Assembler/utility.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-ctype.h
--
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
-dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
-
-/home/tomer/Desktop/University/Assembler/utility.h
-=======
-/home/tomer/Desktop/University/Assembler/utility.h
->>>>>>> 9700912608c101d872313c6543b610d4e50aaf35
 
