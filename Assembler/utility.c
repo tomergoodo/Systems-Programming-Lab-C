@@ -140,6 +140,5 @@ unsigned int dec_to_octal(unsigned int dec){
         dec /= 8;
         i *= 10;
     }
-
     return octal;
 }

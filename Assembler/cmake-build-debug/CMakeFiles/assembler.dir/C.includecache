@@ -23,6 +23,10 @@ stdlib.h
 -
 ctype.h
 -
+stdarg.h
+-
+string.h
+-
 first_pass.h
 /home/tomer/Desktop/University/Assembler/first_pass.h
 dictionaries.h
@@ -35,20 +39,6 @@ second_pass.h
 /home/tomer/Desktop/University/Assembler/second_pass.h
 label_table.h
 /home/tomer/Desktop/University/Assembler/label_table.h
-
-/home/tomer/Desktop/University/Assembler/utility.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-ctype.h
--
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
-dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
 
 /home/tomer/Desktop/University/Assembler/utility.h
 
