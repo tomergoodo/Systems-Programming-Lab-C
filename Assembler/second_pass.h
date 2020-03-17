@@ -7,8 +7,6 @@
 
 #include "label_table.h"
 
-#define MAX_LINE 120
-#define REGISTER_BITS 3
 
 extern int ic;
 extern int dc;

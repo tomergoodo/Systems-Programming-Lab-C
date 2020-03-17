@@ -4,9 +4,6 @@
 
 #ifndef ASSEMBLER_UTILITY_H
 #define ASSEMBLER_UTILITY_H
-#define MAX_LINE 120
-#define MAX_LABEL_LENGTH_FULL 32
-#define FIELD_BITS 3
 
 char * add_extension(char *filename, char* extension, int length);
 

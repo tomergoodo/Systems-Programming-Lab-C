@@ -1,7 +1,6 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>

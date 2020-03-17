@@ -8,13 +8,6 @@
 #include "dictionaries.h"
 #include "label_table.h"
 
-#define MAX_LINE 120
-#define TRUE 1
-#define FALSE 0
-#define MAX_LABEL_LENGTH 31
-#define METHOD_BITS 4
-
-
 
 extern int error;
 extern int error_flag;

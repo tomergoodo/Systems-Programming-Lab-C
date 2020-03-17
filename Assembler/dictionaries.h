@@ -5,8 +5,6 @@
 #ifndef ASSEMBLER_DICTIONARIES_H
 #define ASSEMBLER_DICTIONARIES_H
 
-#define TRUE 1
-
 extern int error;
 
 typedef enum operations {MOV, CMP, ADD, SUB, LEA, CLR, NOT, INC, DEC, JMP, BNE, RED,

@@ -4,9 +4,8 @@
 
 #ifndef ASSEMBLER_LABEL_TABLE_H
 #define ASSEMBLER_LABEL_TABLE_H
-#define MAX_LINE 120
-#define TRUE 1
-#define FALSE 0
+
+#include "info.h"
 
 typedef struct label_table label_table;
 struct label_table{

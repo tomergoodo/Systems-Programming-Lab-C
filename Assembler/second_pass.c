@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <stdarg.h>
 #include <string.h>
+#include "info.h"
 #include "first_pass.h"
 #include "dictionaries.h"
 #include "utility.h"

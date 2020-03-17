@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include "info.h"
 #include "utility.h"
 #include "first_pass.h"
 
