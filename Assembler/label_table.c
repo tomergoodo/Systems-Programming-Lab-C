@@ -88,6 +88,18 @@ void set_entry(const char * label){
         error = ENTRY_NOT_FOUND;
 }
 
+void free_list(label_table** head){
+    label_table * p = *head, *q =NULL;
+    if(*head == NULL){
+        return;
+    }
+    while(p != NULL){
+        q=p;
+        p = p->next;
+        free(q);
+    }
+}
+
 int get_address(const label_table *p){
     return p->address;
 }

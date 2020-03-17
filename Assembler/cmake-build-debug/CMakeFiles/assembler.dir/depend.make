@@ -5,7 +5,6 @@ CMakeFiles\assembler.dir\dictionaries.c.obj: ..\dictionaries.c
 CMakeFiles\assembler.dir\dictionaries.c.obj: ..\dictionaries.h
 CMakeFiles\assembler.dir\dictionaries.c.obj: ..\utility.h
 
-CMakeFiles\assembler.dir\first_pass.c.obj: ..\dictionaries.h
 CMakeFiles\assembler.dir\first_pass.c.obj: ..\first_pass.c
 CMakeFiles\assembler.dir\first_pass.c.obj: ..\first_pass.h
 CMakeFiles\assembler.dir\first_pass.c.obj: ..\label_table.h

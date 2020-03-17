@@ -179,6 +179,7 @@ void build_object_file(char *filename){
         fprintf(fp, "%04d  %.5s\n",line++,p);
     }
     printf("%s was created.\n",filename);
+    free(filename);
     fclose(fp);
 }
 
@@ -192,6 +193,7 @@ void build_extern_file(char *filename){
         p = p->next;
     }
     printf("%s was created.\n",filename);
+    free(filename);
     fclose(fp);
 }
 
@@ -205,5 +207,6 @@ void build_entry_file(char *filename){
         p = p->next;
     }
     printf("%s was created.\n",filename);
+    free(filename);
     fclose(fp);
 }

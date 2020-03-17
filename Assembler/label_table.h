@@ -27,6 +27,7 @@ void set_entry(const char * label);
 int get_address(const label_table *p);
 int get_extern(const label_table *p);
 
+void free_list(label_table** head);
 
 extern int ic;
 extern int error;

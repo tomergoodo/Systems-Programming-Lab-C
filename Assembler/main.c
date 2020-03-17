@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "utility.h"
 #include "dictionaries.h"
 #include "first_pass.h"
@@ -36,6 +37,7 @@ void handle_file(char * filename){
     char * extended_filename;
     extended_filename = add_extension(filename,".as",3);
     fp = fopen(extended_filename,"r");
+    free(extended_filename);
     if(fp == NULL) {
         error = FILE_NOT_FOUND;
         fprintf(stderr, "File %s was not found\n", filename);
@@ -46,6 +48,8 @@ void handle_file(char * filename){
         printf("Finished first-pass processing successfully\n");
         rewind(fp);
         second_pass(fp, filename);
+        free_list(&table_head);
+        free_list(&extern_table_head);
         if(!error_flag){
             printf("Finished second-pass processing successfully\n");
         }
