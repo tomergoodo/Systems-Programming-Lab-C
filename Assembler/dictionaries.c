@@ -60,7 +60,7 @@ methods find_method(char* str) {
         return NONE;
     if (*str == 'r') {
         str++;
-        if (atoi(str) >= 0 && atoi(str) <= 7) {
+        if (atoi(str) >= MIN_REGISTER && atoi(str) <= MAX_REGISTER) {
             return METHOD_REGISTER;
         }
         str--;

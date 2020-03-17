@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utility.h"
+#include "info.h"
 #include "dictionaries.h"
 #include "first_pass.h"
 #include "second_pass.h"
@@ -20,8 +21,8 @@ int ic;
 int dc;
 label_table *table_head;
 label_table *extern_table_head;
-unsigned int data [2000];
-unsigned int code [2000];
+unsigned int data [MACHINE_RAM];
+unsigned int code [MACHINE_RAM];
 
 
 int main(int argc, char* argv[]){
@@ -35,7 +36,7 @@ int main(int argc, char* argv[]){
 void handle_file(char * filename){
     FILE *fp;
     char * extended_filename;
-    extended_filename = add_extension(filename,".as",3);
+    extended_filename = add_extension(filename,".as",EXTENSION_LENGTH3);
     fp = fopen(extended_filename,"r");
     free(extended_filename);
     if(fp == NULL) {

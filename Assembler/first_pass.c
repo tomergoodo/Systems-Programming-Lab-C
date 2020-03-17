@@ -166,7 +166,7 @@ void handle_label(char* instruction){
         if(label[strlen(label)-1] == ':' || isspace(label[strlen(label)-1])){
             label[strlen(label)-1] = '\0';
         }
-        add_label(&table_head, label, ic+100, FALSE, FALSE);
+        add_label(&table_head, label, ic+STARTING_OFFSET, FALSE, FALSE);
     }
     else if(end_of_line(instruction)){
         error = EMPTY_LABEL_LINE;

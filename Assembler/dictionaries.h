@@ -5,22 +5,24 @@
 #ifndef ASSEMBLER_DICTIONARIES_H
 #define ASSEMBLER_DICTIONARIES_H
 
+#include "info.h"
+
 extern int error;
 
 typedef enum operations {MOV, CMP, ADD, SUB, LEA, CLR, NOT, INC, DEC, JMP, BNE, RED,
-                        PRN, JSR, RTS, STOP, UNKNOWN_COMMAND = -1 } operations;
+                        PRN, JSR, RTS, STOP, UNKNOWN_COMMAND = NOT_FOUND } operations;
 
-typedef enum directives {DATA, STRING, EXTERN, ENTRY, UNKNOWN_DIRECTIVE = -1} directives;
+typedef enum directives {DATA, STRING, EXTERN, ENTRY, UNKNOWN_DIRECTIVE = NOT_FOUND} directives;
 
 typedef enum errors {FILE_NOT_FOUND, SYNTAX_ERR, LABEL_SYNTAX, LABEL_LENGTH, EMPTY_LABEL_LINE,
                      LABEL_DOUBLE_DEFINITION, LABEL_CONFLICTING_NAME, LABEL_SYNTAX_COLON, COMMAND_NOT_FOUND,
                      DIRECTIVE_NOT_FOUND, DATA_SYNTAX_ERROR, MISSING_COMMA_DATA, STRING_SYNTAX_ERROR,
                      MISSING_COMMA_OPERATION, ADDRESS_METHOD_ERROR, NUMBER_OF_OPERANDS_ERROR,
-                     METHOD_UNKNOWN_ERROR, ENTRY_NOT_FOUND, LABEL_NOT_FOUND, NO_ERR = -1} errors;
+                     METHOD_UNKNOWN_ERROR, ENTRY_NOT_FOUND, LABEL_NOT_FOUND, NO_ERR = NOT_FOUND} errors;
 
-typedef enum methods {METHOD_IMMEDIATE = 1, METHOD_DIRECT = 2, METHOD_INDIRECT_REGISTER = 4, METHOD_REGISTER = 8, NONE, METHOD_UNKNOWN = -1} methods;
+typedef enum methods {METHOD_IMMEDIATE = BIT_ZERO, METHOD_DIRECT = BIT_ONE, METHOD_INDIRECT_REGISTER = BIT_TWO, METHOD_REGISTER = BIT_THREE, NONE, METHOD_UNKNOWN = NOT_FOUND} methods;
 
-typedef enum fields {EXTERNAL = 1, RELOCATABLE = 2, ABSOLUTE = 4} fields;
+typedef enum fields {EXTERNAL = BIT_ZERO, RELOCATABLE = BIT_ONE, ABSOLUTE = BIT_TWO} fields;
 
 operations find_operation(const char* str);
 directives find_directive(const char* str);

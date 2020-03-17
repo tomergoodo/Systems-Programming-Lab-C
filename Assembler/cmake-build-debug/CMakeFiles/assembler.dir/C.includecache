@@ -6,7 +6,21 @@
 
 #IncludeRegexTransform: 
 
+/home/tomer/Desktop/University/Assembler/dictionaries.c
+string.h
+-
+stdlib.h
+-
+ctype.h
+-
+utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
+dictionaries.h
 /home/tomer/Desktop/University/Assembler/dictionaries.h
+
+/home/tomer/Desktop/University/Assembler/dictionaries.h
+info.h
+/home/tomer/Desktop/University/Assembler/info.h
 
 /home/tomer/Desktop/University/Assembler/first_pass.c
 stdio.h
@@ -57,6 +71,8 @@ stdlib.h
 -
 utility.h
 /home/tomer/Desktop/University/Assembler/utility.h
+info.h
+/home/tomer/Desktop/University/Assembler/info.h
 dictionaries.h
 /home/tomer/Desktop/University/Assembler/dictionaries.h
 first_pass.h
@@ -89,6 +105,22 @@ second_pass.h
 /home/tomer/Desktop/University/Assembler/second_pass.h
 label_table.h
 /home/tomer/Desktop/University/Assembler/label_table.h
+
+/home/tomer/Desktop/University/Assembler/utility.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+ctype.h
+-
+info.h
+/home/tomer/Desktop/University/Assembler/info.h
+utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
+dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 
 /home/tomer/Desktop/University/Assembler/utility.h
 

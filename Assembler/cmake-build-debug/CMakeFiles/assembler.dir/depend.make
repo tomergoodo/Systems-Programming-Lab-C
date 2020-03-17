@@ -3,6 +3,7 @@
 
 CMakeFiles/assembler.dir/dictionaries.c.o: ../dictionaries.c
 CMakeFiles/assembler.dir/dictionaries.c.o: ../dictionaries.h
+CMakeFiles/assembler.dir/dictionaries.c.o: ../info.h
 CMakeFiles/assembler.dir/dictionaries.c.o: ../utility.h
 
 CMakeFiles/assembler.dir/first_pass.c.o: ../dictionaries.h

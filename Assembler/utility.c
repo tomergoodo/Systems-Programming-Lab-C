@@ -137,8 +137,8 @@ unsigned int insert_field(unsigned int word, int field){
 unsigned int dec_to_octal(unsigned int dec){
     unsigned int octal = 0, i = 1;
     while (dec != 0){
-        octal += (dec % 8) * i;
-        dec /= 8;
+        octal += (dec % OCTAL_BASE) * i;
+        dec /= OCTAL_BASE;
         i *= 10;
     }
     return octal;

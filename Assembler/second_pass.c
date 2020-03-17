@@ -140,7 +140,7 @@ unsigned int encode_label(char *label){
     address = get_address(find_label(label));
     word |= address;
     if(get_extern(find_label(label))){
-        add_label(&extern_table_head, label, ic+100, TRUE);
+        add_label(&extern_table_head, label, ic+STARTING_OFFSET, TRUE);
         word = insert_field(word, EXTERNAL);
     }
     else
@@ -158,11 +158,11 @@ void build_output_files(char *filename){
 }
 
 void build_object_file(char *filename){
-    int line=100;
+    int line=STARTING_OFFSET;
     int count=0;
     char tmp[MAX_LINE];
     char *p;
-    filename = add_extension(filename,".ob",3);
+    filename = add_extension(filename,".ob",EXTENSION_LENGTH3);
     FILE *fp = fopen(filename, "w");
     fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
@@ -186,7 +186,7 @@ void build_object_file(char *filename){
 void build_extern_file(char *filename){
 
     label_table *p = extern_table_head;
-    filename = add_extension(filename,".ext",4);
+    filename = add_extension(filename,".ext",EXTENSION_LENGTH4);
     FILE *fp = fopen(filename, "w");
     while(p != NULL){
         fprintf(fp,"%s\t%05d\n",p->label,p->address);
@@ -199,7 +199,7 @@ void build_extern_file(char *filename){
 
 void build_entry_file(char *filename){
     label_table *p = table_head;
-    filename = add_extension(filename,".ent",4);
+    filename = add_extension(filename,".ent",EXTENSION_LENGTH4);
     FILE *fp = fopen(filename, "w");
     while(p!=NULL){
         if(p->entry)
