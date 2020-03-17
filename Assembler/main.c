@@ -44,25 +44,34 @@ void handle_file(char * filename){
         fprintf(stderr, "File %s was not found\n", filename);
         return;
     }
+    printf("\nStarting %s processing\n",filename);
     process_file(fp);
     if(!error_flag){
         printf("Finished first-pass processing successfully\n");
         rewind(fp);
         second_pass(fp, filename);
-        free_list(&table_head);
-        free_list(&extern_table_head);
         if(!error_flag){
-            printf("Finished second-pass processing successfully\n");
-        }
+            printf("Finished %s second-pass processing successfully\n",filename);
+        } else
+            printf("Finished %s second-pass processing. Errors have been detected.\n",filename);
     }
     else
         printf("Finished %s first-pass processing. Errors have been detected.\n",filename);
+    free_list(&table_head);
+    free_list(&extern_table_head);
     fclose(fp);
 }
 
 
 void set_parameters(){
+    error_flag = FALSE;
     ic = 0;
     dc = 0;
     error = NO_ERR;
+    extern_flag = FALSE;
+    entry_flag = FALSE;
+    data [MACHINE_RAM] = 0;
+    code [MACHINE_RAM] = 0;
+    table_head = NULL;
+    extern_table_head = NULL;
 }

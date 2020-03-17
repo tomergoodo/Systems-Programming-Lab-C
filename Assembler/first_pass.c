@@ -235,6 +235,10 @@ void handle_operation(char* operation){
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
     }
+    if(num_of_operands && end_of_line(operation)){
+        error = NUMBER_OF_OPERANDS_ERROR;
+        return;
+    }
 
     if(num_of_operands){
         copy_token(operation,first_op);

@@ -89,13 +89,13 @@ void write_error(int line_number){
             fprintf(stderr, "Strings must start and end with "".\n");
             break;
         case MISSING_COMMA_OPERATION:
-            fprintf(stderr, "operands must be separated with commas.\n");
+            fprintf(stderr, "Operands must be separated with commas.\n");
             break;
         case ADDRESS_METHOD_ERROR:
             fprintf(stderr, "Address method isn't compatible with operation.\n");
             break;
         case NUMBER_OF_OPERANDS_ERROR:
-            fprintf(stderr, "Unexpected number of operands.\n");
+            fprintf(stderr, "Incorrect number of operands.\n");
             break;
         case METHOD_UNKNOWN_ERROR:
             fprintf(stderr, "Unrecognized addressing method.\n");
