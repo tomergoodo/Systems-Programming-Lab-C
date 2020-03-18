@@ -1,11 +1,13 @@
 //
 // Created by Tomer Goodovitch on 06/03/2020.
 //
+
+#include "label_table.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include "label_table.h"
 #include "dictionaries.h"
 
 label_table * find_label(const char * label){
@@ -48,7 +50,7 @@ void add_label(label_table** head, const char * name, const unsigned int address
 }
 
 void remove_last_label(){
-    label_table * p = table_head, *q = NULL;
+    label_table *p = table_head, *q = p;
     if(table_head == NULL)
         return;
     while(p->next != NULL) {
