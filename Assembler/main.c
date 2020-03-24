@@ -45,7 +45,7 @@ void handle_file(char * filename){
         return;
     }
     printf("\nStarting %s processing\n",filename);
-    process_file(fp);
+    first_pass(fp);
     if(!error_flag){
         printf("Finished first-pass processing successfully\n");
         rewind(fp);

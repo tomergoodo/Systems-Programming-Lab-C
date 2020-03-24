@@ -9,9 +9,8 @@
 #include "utility.h"
 #include "first_pass.h"
 
-
-
-void process_file(FILE* fp){
+/*This function reads a line from the file and manages all the first pass processing.*/
+void first_pass(FILE* fp){
     char instruction[MAX_LINE] = "";
     int line_number = 1;
     while(fgets(instruction, MAX_LINE, fp) != NULL){
@@ -20,11 +19,19 @@ void process_file(FILE* fp){
             process_line(instruction);
         if(is_error())
             write_error(line_number);
+
+        if(overflow()){
+            error = OVERFLOW;
+            error_flag = TRUE;
+            fprintf(stderr, "Size too big");
+            return;
+        }
+
         line_number++;
     }
     update_label_table();
 }
-
+/*This function processes a line of the file, identifies it and sends to sub processing functions*/
 void process_line(char* instruction){
     char token[MAX_LINE] = "";
 
@@ -58,7 +65,7 @@ void process_line(char* instruction){
     }
 }
 
-
+/*This function identifies all directives(.data, .string, .extern, .entry) and sends to the appropriate sub-functions to handle */
 void handle_directive(char* directive){
     char token[MAX_LINE] = "";
     copy_token(directive,token);
@@ -83,8 +90,8 @@ void handle_directive(char* directive){
             break;
     }
 }
-
-void handle_data(char * data){
+/*This function handles the .data directive*/
+void handle_data(char *data){
     char token[MAX_LINE] = "";
     copy_token(data,token);
 
@@ -111,7 +118,9 @@ void handle_data(char * data){
     }
 }
 
-int check_number_validity(char * num){
+/*This function checks for the validity of a string (@*num) that should represent an integer.
+ * If the the number is valid returns TRUE, FALSE otherwise.*/
+int check_number_validity(char *num){
     if(*num == '-' || *num == '+')
         num++;
     while(*num != '\0' && *num != ',' && !isspace(*num)){
@@ -122,10 +131,13 @@ int check_number_validity(char * num){
     return TRUE;
 }
 
+/*This function converts the .data integers and .string strings (@num) into unsigned int and
+ * writes them into the data array to be outputted in the .ob file*/
 void write_to_data(int num){
     data[dc++] = (unsigned int) num;
 }
 
+/*This function handles the .string directive*/
 void handle_string(char * string){
     if(*string != '"'){
         error = STRING_SYNTAX_ERROR;
@@ -140,6 +152,7 @@ void handle_string(char * string){
     write_to_data(0);
 }
 
+/*this function handles the .extern directive. Adds it to the label_table Linked-list*/
 void handle_extern(char * label){
     extern_flag = TRUE;
     if(is_label(label,FALSE)){
@@ -149,7 +162,7 @@ void handle_extern(char * label){
     }
 }
 
-
+/*This function handels all labels and ads them to the label tabel*/
 void handle_label(char* instruction){
     char label[MAX_LINE] = "";
     char token[MAX_LINE] = "";
@@ -178,7 +191,8 @@ void handle_label(char* instruction){
     }
 }
 
-
+/*This functions checks whether the given string is a label and for its validity.
+ * (@colon is a boolean to know if the label should end with a colon.)*/
 int is_label(char * token, int colon){
     int i = 0;
     if(colon && (find_operation(token) != UNKNOWN_COMMAND || find_directive(token) != UNKNOWN_DIRECTIVE)){
@@ -219,7 +233,7 @@ int is_label(char * token, int colon){
     return TRUE;
 }
 
-
+/*This function handles all operations (mov, add, etc.)*/
 void handle_operation(char* operation){
     char command[MAX_LINE] = "";
     int num_of_operands;
@@ -230,7 +244,7 @@ void handle_operation(char* operation){
 
     num_of_operands = number_of_operands(find_operation(command));
 
-    if(!num_of_operands && end_of_line(next_token(operation))){
+    if(!num_of_operands && end_of_line(next_token(operation))){ //if expects no operands (like stop operation).
         code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
@@ -247,7 +261,7 @@ void handle_operation(char* operation){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(!num_of_operands && end_of_line(next_token(operation))){
+    if(!num_of_operands && end_of_line(next_token(operation))){ //if expects one operand (like jmp operation).
         if(!operand_valid_method(find_operation(command), NONE, find_method(first_op))){
             error = ADDRESS_METHOD_ERROR;
             return;
@@ -281,14 +295,19 @@ void handle_operation(char* operation){
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
+
     if(!operand_valid_method(find_operation(command), find_method(first_op), find_method(second_op))){
         error = ADDRESS_METHOD_ERROR;
         return;
     }
+    /*encodes the first word into code[]*/
     code[ic] = encode_first_word(find_operation(command), TRUE, TRUE, find_method(first_op),find_method(second_op));
+    /*increments ic by calculate_additional_words()*/
     ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
 }
 
+/*This function encodes into the code array (to be outputted in the .ob file)
+ * an unsigned int that is the code of the first words of an operation (mov, add, etc.).*/
 unsigned int encode_first_word(int opcode, int src, int dest, int src_method, int dest_method){
     unsigned int word = 0;
     word = opcode;
@@ -302,6 +321,9 @@ unsigned int encode_first_word(int opcode, int src, int dest, int src_method, in
     return word;
 }
 
+/*This function checks for the validity of the operands (@source_method, @dest_method) in the operation (@type).
+ * (the addressing methods: immediate, direct, indirect register amd register).
+ * Returns TRUE if valid, FALSE otherwise.*/
 int operand_valid_method(operations type, methods source_method, methods dest_method){
     /*
      * 0: IMMEDIATE
@@ -382,6 +404,7 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
     }
 }
 
+/*This function returns the number of operands an operation (@type) accepts.*/
 int number_of_operands(operations type){
     switch(type){
         case MOV:
@@ -410,7 +433,10 @@ int number_of_operands(operations type){
     return 0;
 }
 
-
+/*This function calculate additional words the operation needs in the RAM to increment ic.
+ * @type is the operation type (mov, add, etc.)
+ * @src_method is the source's addressing method.
+ * @dest_method is the destenation's addressing method.*/
 int calculate_additional_words(operations type, methods src_method, methods dest_method){
     int words = 1, register_flag = FALSE;
     if(src_method == METHOD_IMMEDIATE || src_method == METHOD_DIRECT)
@@ -426,6 +452,14 @@ int calculate_additional_words(operations type, methods src_method, methods dest
     return words;
 }
 
+/*This function checks if the total words that have been encoded so far exceeds the RAM size (4096).
+ * Returns TRUE if it does, FALSE otherwise.*/
+int overflow(){
+    return ic+dc>MACHINE_RAM;
+}
+
+/*This function checks if an error has been detected in the last line that was processed.
+ * Returns TRUE if it has, FALSE otherwise.*/
 int is_error(){
     if(error == NO_ERR)
         return FALSE;

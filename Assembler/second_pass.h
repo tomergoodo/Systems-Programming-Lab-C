@@ -14,8 +14,8 @@ extern int error;
 extern int error_flag;
 extern int extern_flag;
 extern int entry_flag;
-extern unsigned int data[2000];
-extern unsigned int code[2000];
+extern unsigned int data[];
+extern unsigned int code[];
 extern label_table *extern_table_head;
 extern label_table *table_head;
 

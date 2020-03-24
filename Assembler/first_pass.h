@@ -20,7 +20,7 @@ extern unsigned int code[];
 extern label_table *extern_table_head;
 extern label_table *table_head;
 
-void process_file(FILE* fp);
+void first_pass(FILE* fp);
 void process_line(char* instruction);
 
 void handle_operation(char* operation);
@@ -39,6 +39,7 @@ void write_to_data(int num);
 void handle_label(char* label);
 int is_label(char * token, int colon);
 
+int overflow();
 int is_error();
 
 #endif //ASSEMBLER_FIRST_PASS_H

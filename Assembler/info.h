@@ -29,7 +29,7 @@
 #define MIN_REGISTER 0
 #define MAX_REGISTER 7
 
-#define MACHINE_RAM 2000
+#define MACHINE_RAM 4096
 
 #define BIT_ZERO 1
 #define BIT_ONE 2
