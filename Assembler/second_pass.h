@@ -5,7 +5,9 @@
 #ifndef ASSEMBLER_SECOND_PASS_H
 #define ASSEMBLER_SECOND_PASS_H
 
+#include <stdio.h>
 #include "label_table.h"
+#include "dictionaries.h"
 
 
 extern int ic;

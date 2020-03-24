@@ -5,6 +5,7 @@
 #ifndef ASSEMBLER_FIRST_PASS_H
 #define ASSEMBLER_FIRST_PASS_H
 
+#include <stdio.h>
 #include "dictionaries.h"
 #include "label_table.h"
 

@@ -1,15 +1,15 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
-#include <stdio.h>
+
+#include "second_pass.h"
+
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include "info.h"
 #include "first_pass.h"
-#include "dictionaries.h"
 #include "utility.h"
-#include "second_pass.h"
 
 void second_pass(FILE * fp, char *filename){
     char instruction[MAX_LINE] = "";

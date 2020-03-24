@@ -1,7 +1,9 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
-#include <stdio.h>
+
+#include "first_pass.h"
+
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -31,6 +33,7 @@ void first_pass(FILE* fp){
     }
     update_label_table();
 }
+
 /*This function processes a line of the file, identifies it and sends to sub processing functions*/
 void process_line(char* instruction){
     char token[MAX_LINE] = "";
@@ -96,6 +99,10 @@ void handle_data(char *data){
     copy_token(data,token);
 
     while(!end_of_line(data)){
+        if(*token == ','){
+            error = ILLEGAL_COMMA_DATA;
+            return;
+        }
         if(!check_number_validity(token)){
             error = DATA_SYNTAX_ERROR;
             return;
@@ -116,6 +123,10 @@ void handle_data(char *data){
             copy_token(data,token);
         }
     }
+    if(*token == ','){
+        error = ILLEGAL_COMMA_DATA;
+        return;
+    }
 }
 
 /*This function checks for the validity of a string (@*num) that should represent an integer.
@@ -123,6 +134,8 @@ void handle_data(char *data){
 int check_number_validity(char *num){
     if(*num == '-' || *num == '+')
         num++;
+    if(!isdigit(*num))
+        return FALSE;
     while(*num != '\0' && *num != ',' && !isspace(*num)){
         if(!isdigit(*num))
             return FALSE;
@@ -145,7 +158,11 @@ void handle_string(char * string){
     }else{
         string++;
     }
-    while(*string != '"' && !end_of_line(string)){
+    while(*string != '"'){
+        if(end_of_line(string)){
+            error = STRING_SYNTAX_ERROR;
+            return;
+        }
         write_to_data((int) *string);
         string++;
     }
@@ -195,6 +212,7 @@ void handle_label(char* instruction){
  * (@colon is a boolean to know if the label should end with a colon.)*/
 int is_label(char * token, int colon){
     int i = 0;
+    char tmp[MAX_LINE] = ".";
     if(colon && (find_operation(token) != UNKNOWN_COMMAND || find_directive(token) != UNKNOWN_DIRECTIVE)){
         return FALSE;
     }
@@ -213,22 +231,26 @@ int is_label(char * token, int colon){
 
     if(colon) token[strlen(token)-1] = '\0';
 
-    if(colon && find_label(token) != NULL){
+    if(find_label(token) != NULL){
         error = LABEL_DOUBLE_DEFINITION;
         return TRUE;
     }
-
     if(find_operation(token) != UNKNOWN_COMMAND){
         error = LABEL_CONFLICTING_NAME;
         return FALSE;
     }
+    strcat(tmp,token);
+    if(find_directive(tmp) != UNKNOWN_DIRECTIVE){
+        error = LABEL_CONFLICTING_NAME;
+        return FALSE;
+    }
 
-    while(end_of_line(token)){
-        if(!isalnum(token[i])){
+    while(!end_of_line(token)){
+        if(!isalnum(*token)){
             error = LABEL_SYNTAX;
             return FALSE;
         }
-        i++;
+        token++;
     }
     return TRUE;
 }

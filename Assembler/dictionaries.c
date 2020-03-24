@@ -1,11 +1,13 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+
+#include "dictionaries.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "utility.h"
-#include "dictionaries.h"
 
 struct operations_dictionary{
     operations val;

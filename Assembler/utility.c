@@ -1,12 +1,14 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+
+#include "utility.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "info.h"
-#include "utility.h"
 #include "dictionaries.h"
 
 extern int error;
@@ -68,7 +70,7 @@ void write_error(int line_number){
             fprintf(stderr, "Label is defined more than once.\n");
             break;
         case LABEL_CONFLICTING_NAME:
-            fprintf(stderr, "Label can not be a name of instruction or register.\n");
+            fprintf(stderr, "Label can not be a name of an instruction, directive or a register.\n");
             break;
         case LABEL_SYNTAX_COLON:
             fprintf(stderr, "Label definition must end with a colon.\n");
@@ -79,6 +81,9 @@ void write_error(int line_number){
         case DIRECTIVE_NOT_FOUND:
             fprintf(stderr,"Directive not found.\n");
             break;
+        case ILLEGAL_COMMA_DATA:
+            fprintf(stderr, "Illegal comma.\n");
+            break;
         case DATA_SYNTAX_ERROR:
             fprintf(stderr, "Data variables must be integers.\n");
             break;
@@ -86,7 +91,7 @@ void write_error(int line_number){
             fprintf(stderr, "Data variables must be separated with commas.\n");
             break;
         case STRING_SYNTAX_ERROR:
-            fprintf(stderr, "Strings must start and end with "".\n");
+            fprintf(stderr, "Strings must start and end with %c.\n",'"');
             break;
         case MISSING_COMMA_OPERATION:
             fprintf(stderr, "Operands must be separated with commas.\n");
