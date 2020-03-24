@@ -1,10 +1,10 @@
-//
-// Created by Tomer Goodovitch on 28/02/2020.
-//
-// This is a project to simulate an Assembler with an imaginary computer and assembly language.
-//
-// This is the main file directing the command line parameters to first and second pass processing.
-//
+/*
+ * Created by Tomer Goodovitch on 28/02/2020.
+ *
+ * This is a project to simulate an Assembler with an imaginary computer and assembly language.
+ * This is the main file directing the command line parameters to first and second pass processing.
+ */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,12 +65,12 @@ void handle_file(char * filename){
         rewind(fp);
         second_pass(fp, filename);
         if(!error_flag){
-            printf("Finished %s second-pass processing successfully\n",filename);
+            printf("Finished %s second-pass processing successfully\n\n",filename);
         } else
-            printf("Finished %s second-pass processing. Errors have been detected.\n",filename);
+            printf("Finished %s second-pass processing. Errors have been detected.\n\n",filename);
     }
     else
-        printf("Finished %s first-pass processing. Errors have been detected.\n",filename);
+        printf("Finished %s first-pass processing. Errors have been detected.\n\n",filename);
     free_list(&table_head);
     free_list(&extern_table_head);
     fclose(fp);

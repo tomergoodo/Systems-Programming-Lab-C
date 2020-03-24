@@ -1,8 +1,9 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This file implements the "find" functions matching keys(strings) to values(enums declared in the header).
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This file implements the "find" functions matching keys(strings) to values(enums declared in the header).
+ *
+*/
 
 #include "dictionaries.h"
 

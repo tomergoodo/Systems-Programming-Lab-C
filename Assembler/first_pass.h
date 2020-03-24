@@ -1,9 +1,10 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This is the header file for first_pass.c
-// It declares prototypes of functions and external variables.
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This is the header file for first_pass.c
+ * It declares prototypes of functions and external variables.
+ *
+ */
 
 #ifndef ASSEMBLER_FIRST_PASS_H
 #define ASSEMBLER_FIRST_PASS_H
@@ -54,4 +55,4 @@ int is_label(char * token, int colon);
 int overflow();
 int is_error();
 
-#endif //ASSEMBLER_FIRST_PASS_H
+#endif /*ASSEMBLER_FIRST_PASS_H*/

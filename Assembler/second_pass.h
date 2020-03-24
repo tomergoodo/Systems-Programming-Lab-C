@@ -1,9 +1,9 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This is the header file for second_pass.c
-// It declares prototypes of functions and external variables.
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This is the header file for second_pass.c
+ * It declares prototypes of functions and external variables.
+ */
 
 #ifndef ASSEMBLER_SECOND_PASS_H
 #define ASSEMBLER_SECOND_PASS_H
@@ -47,4 +47,4 @@ void build_object_file(char *filename);
 void build_extern_file(char *filename);
 void build_entry_file(char *filename);
 
-#endif //ASSEMBLER_SECOND_PASS_H
+#endif /*ASSEMBLER_SECOND_PASS_H*/

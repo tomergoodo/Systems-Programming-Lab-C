@@ -1,9 +1,11 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This is the header file for utility.c
-// It declares prototypes of functions.
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This is the header file for utility.c
+ * It declares prototypes of functions.
+ *
+ */
+
 
 #ifndef ASSEMBLER_UTILITY_H
 #define ASSEMBLER_UTILITY_H
@@ -24,4 +26,4 @@ int ignore_line (char * line);
 
 unsigned int insert_field(unsigned int word, int field);
 
-#endif //ASSEMBLER_UTILITY_H
+#endif /*ASSEMBLER_UTILITY_H*/

@@ -1,8 +1,9 @@
-//
-// Created by Tomer Goodovitch on 17/03/2020.
-//
-// This file is a header file for all the constants in use.
-//
+/*
+ * Created by Tomer Goodovitch on 17/03/2020.
+ *
+ * This file is a header file for all the constants in use.
+ *
+ */
 
 #ifndef ASSEMBLER_INFO_H
 #define ASSEMBLER_INFO_H
@@ -39,11 +40,8 @@
 #define MAX_REGISTER 7
 
 /**-----------------------------------misc-----------------------------------*/
-#define OCTAL_BASE 8
 #define CODE_SIZE 5
-#define EXTENSION_LENGTH4 4
-#define EXTENSION_LENGTH3 3
 #define NOT_FOUND -1
 
 
-#endif //ASSEMBLER_INFO_H
+#endif /*ASSEMBLER_INFO_H*/

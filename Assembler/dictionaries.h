@@ -1,8 +1,10 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This file typedefs enums
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This file typedefs enums.
+ *
+ */
+
 #ifndef ASSEMBLER_DICTIONARIES_H
 #define ASSEMBLER_DICTIONARIES_H
 
@@ -40,4 +42,4 @@ operations find_operation(const char* str);
 directives find_directive(const char* str);
 methods find_method(char* str);
 
-#endif //ASSEMBLER_DICTIONARIES_H
+#endif /*ASSEMBLER_DICTIONARIES_H*/

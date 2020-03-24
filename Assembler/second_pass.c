@@ -1,8 +1,9 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This file implements the second-pass functions.
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This file implements the second-pass functions.
+ *
+ */
 
 #include "second_pass.h"
 
@@ -128,6 +129,10 @@ unsigned int encode_word(char *operand, int dest){
                 return encode_word_registers(NULL, operand, ABSOLUTE);
             else
                 return encode_word_registers(operand, NULL, ABSOLUTE);
+        case METHOD_UNKNOWN:
+        case NONE:
+            error = METHOD_UNKNOWN_ERROR;
+            return word;
     }
     return word;
 }
@@ -191,20 +196,21 @@ void build_object_file(char *filename){
     int count=0;
     char tmp[MAX_LINE];
     char *p;
+    FILE *fp;
     filename = add_extension(filename,".ob");
-    FILE *fp = fopen(filename, "w");
+    fp = fopen(filename, "w");
     fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
         p=tmp;
-        snprintf(tmp, MAX_LINE, "%05ho", code[count++]); //convert to octal base and store in tmp
-        p += strlen(tmp)-CODE_SIZE; //point to the last 5 characters.
+        sprintf(tmp, "%05ho", code[count++]); /*convert to octal base and store in tmp*/
+        p += strlen(tmp)-CODE_SIZE; /*point to the last 5 characters.*/
         fprintf(fp,"%04d  %.5s\n",line++,p);
     }
     count=0;
     while(dc--){
         p=tmp;
-        snprintf(tmp, MAX_LINE,"%05ho", data[count++]); //convert to octal base and store in tmp
-        p += strlen(tmp)-CODE_SIZE; //point to the last 5 characters.
+        sprintf(tmp,"%05ho", data[count++]); /*convert to octal base and store in tmp*/
+        p += strlen(tmp)-CODE_SIZE; /*point to the last 5 characters.*/
         fprintf(fp, "%04d  %.5s\n",line++,p);
     }
     printf("%s was created.\n",filename);
@@ -216,9 +222,10 @@ void build_object_file(char *filename){
  * This is done using the linked list of the external labels (extern_table_head) declaration and usage in the .as file.
  * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_extern_file(char *filename){
+    FILE *fp;
     label_table *p = extern_table_head;
     filename = add_extension(filename,".ext");
-    FILE *fp = fopen(filename, "w");
+    fp = fopen(filename, "w");
     while(p != NULL){
         fprintf(fp,"%s\t%05d\n",p->label,p->address);
         p = p->next;
@@ -233,8 +240,9 @@ void build_extern_file(char *filename){
  * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_entry_file(char *filename){
     label_table *p = table_head;
+    FILE *fp;
     filename = add_extension(filename,".ent");
-    FILE *fp = fopen(filename, "w");
+    fp = fopen(filename, "w");
     while(p!=NULL){
         if(p->entry)
             fprintf(fp,"%s\t%05d\n",p->label,p->address);

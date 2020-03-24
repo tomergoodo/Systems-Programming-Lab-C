@@ -1,8 +1,11 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This file is the implementation of the different utility functions.
-//
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This file is the implementation of the different utility functions.
+ *
+ */
+
+
 
 #include "utility.h"
 

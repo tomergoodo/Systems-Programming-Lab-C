@@ -1,8 +1,9 @@
-//
-// Created by Tomer Goodovitch on 06/03/2020.
-//
-// This file implements the label table (a linked list structure) functions.
-//
+/*
+ * Created by Tomer Goodovitch on 06/03/2020.
+ *
+ * This file implements the label table (a linked list structure) functions.
+ */
+
 #include "label_table.h"
 
 #include <stdio.h>

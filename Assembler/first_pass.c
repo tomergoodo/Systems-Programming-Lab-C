@@ -1,9 +1,8 @@
-//
-// Created by Tomer Goodovitch on 01/03/2020.
-//
-// This file implements the first-pass functions.
-//
-
+/*
+ * Created by Tomer Goodovitch on 01/03/2020.
+ *
+ * This file implements the first-pass functions.
+ */
 #include "first_pass.h"
 
 #include <stdlib.h>
@@ -27,7 +26,7 @@ void first_pass(FILE* fp){
         if(overflow()){
             error = OVERFLOW;
             error_flag = TRUE;
-            fprintf(stderr, "Size too big");
+            fprintf(stderr, "Size too big\n");
             return;
         }
 
@@ -43,7 +42,7 @@ void process_line(char* instruction){
 
     instruction = skip_spaces(instruction);
 
-    if(end_of_line(instruction)) return; //blank or comment line
+    if(end_of_line(instruction)) return; /*blank or comment line*/
     if(!isalpha(*instruction) && *instruction != '.') {
         error = SYNTAX_ERR;
         return;
@@ -223,7 +222,6 @@ void handle_label(char* instruction){
 /**This functions checks whether the given string is a label and for its validity.
  * @param colon: is a boolean to indicate if the label should end with a colon.*/
 int is_label(char * token, int colon){
-    int i = 0;
     char tmp[MAX_LINE] = ".";
     if(colon && (find_operation(token) != UNKNOWN_COMMAND || find_directive(token) != UNKNOWN_DIRECTIVE)){
         return FALSE;
@@ -251,7 +249,7 @@ int is_label(char * token, int colon){
         error = LABEL_CONFLICTING_NAME;
         return FALSE;
     }
-    strcat(tmp,token); //append a '.' at the begging of the string to check if its a directive.
+    strcat(tmp,token); /*append a '.' at the begging of the string to check if its a directive.*/
     if(find_directive(tmp) != UNKNOWN_DIRECTIVE){
         error = LABEL_CONFLICTING_NAME;
         return FALSE;
@@ -274,30 +272,30 @@ void handle_operation(char* operation){
     int num_of_operands;
     char first_op[20] = "",second_op[20] = "";
 
-    copy_token(operation,command); //get command
-    operation = next_token(operation); //operation -> first operator
+    copy_token(operation,command); /*get command*/
+    operation = next_token(operation); /*operation -> first operator*/
 
     num_of_operands = number_of_operands(find_operation(command));
 
-    if(!num_of_operands && end_of_line(next_token(operation))){ //if expects no operands (like stop operation).
+    if(!num_of_operands && end_of_line(next_token(operation))){ /*if expects no operands (like stop operation).*/
 
         code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
     }
-    if(num_of_operands && end_of_line(operation)){ //too little operands
+    if(num_of_operands && end_of_line(operation)){ /*too little operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
     if(num_of_operands){
-        copy_token(operation,first_op); //first_op <- first operand.
+        copy_token(operation,first_op); /*first_op <- first operand.*/
         num_of_operands--;
-    }else if(!end_of_line(operation)){ //too many operands
+    }else if(!end_of_line(operation)){ /*too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(!num_of_operands && end_of_line(next_token(operation))){ //if expects one operand (like jmp operation).
+    if(!num_of_operands && end_of_line(next_token(operation))){ /*if expects one operand (like jmp operation).*/
         if(!operand_valid_method(find_operation(command), NONE, find_method(first_op))){
             error = ADDRESS_METHOD_ERROR;
             return;
@@ -307,27 +305,27 @@ void handle_operation(char* operation){
         return;
     }
 
-    operation = next_token(operation); //operation -> comma
-    if(operation == NULL && num_of_operands){ //too little operands
+    operation = next_token(operation); /*operation -> comma*/
+    if(operation == NULL && num_of_operands){ /*too little operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(*operation != ',' && !end_of_line(operation)){ //missing comma
+    if(*operation != ',' && !end_of_line(operation)){ /*missing comma*/
         error = MISSING_COMMA_OPERATION;
         return;
     }
 
-    operation = next_token(operation); //operation -> second operator
+    operation = next_token(operation); /*operation -> second operator*/
 
     if(num_of_operands){
-        copy_token(operation, second_op); //second_op <- second operand.
+        copy_token(operation, second_op); /*second_op <- second operand.*/
         num_of_operands--;
-    }else if(!end_of_line(operation)){ //too many operands
+    }else if(!end_of_line(operation)){ /*too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
-    if(!num_of_operands && !end_of_line(next_token(operation))){ //too many operands
+    if(!num_of_operands && !end_of_line(next_token(operation))){ /*too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
@@ -447,6 +445,8 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
             error = COMMAND_NOT_FOUND;
             return TRUE;
     }
+    error = COMMAND_NOT_FOUND;
+    return TRUE;
 }
 
 /**This function returns the number of operands an operation accepts.

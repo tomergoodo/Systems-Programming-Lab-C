@@ -1,9 +1,9 @@
-//
-// Created by Tomer Goodovitch on 06/03/2020.
-//
-// This is a header file for label_table.c
-// This file typedefs the label_table struct.
-//
+/*
+ * Created by Tomer Goodovitch on 06/03/2020.
+ *
+ * This is a header file for label_table.c
+ * This file typedefs the label_table struct.
+ */
 
 #ifndef ASSEMBLER_LABEL_TABLE_H
 #define ASSEMBLER_LABEL_TABLE_H
@@ -42,4 +42,4 @@ extern int error;
 extern label_table *extern_table_head;
 extern label_table *table_head;
 
-#endif //ASSEMBLER_LABEL_TABLE_H
+#endif /*ASSEMBLER_LABEL_TABLE_H*/
