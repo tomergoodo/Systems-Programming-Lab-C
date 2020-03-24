@@ -9,7 +9,6 @@
 #include <string.h>
 #include "info.h"
 #include "utility.h"
-#include "first_pass.h"
 
 /*This function reads a line from the file and manages all the first pass processing.*/
 void first_pass(FILE* fp){
