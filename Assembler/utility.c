@@ -1,6 +1,8 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+// This file is the implementation of the different utility functions.
+//
 
 #include "utility.h"
 
@@ -13,12 +15,20 @@
 
 extern int error;
 
-char * add_extension(char *filename, char* extension, int length){
-    char * extended_filename = (char*)malloc(strlen(filename)+length);
+/**This function appends an extension to a string.
+ * This is used to append extension to file names.
+ * @param filename: the string to append to (the file name).
+ * @param extension: the string to append (the extension).
+ * @return: a pointer to the appended string.*/
+char * add_extension(char *filename, char* extension){
+    char * extended_filename = (char*)malloc(strlen(filename)+strlen(extension));
     strcpy(extended_filename,filename);
-    return strncat(extended_filename,extension,length);
+    return strncat(extended_filename,extension,strlen(extension));
 }
 
+/**This function finds the next token of the line.
+ * @param seq: the current pointer.
+ * @return: a pointer to the next non-whitespace token. Returns NULL if nedt token is end of line.*/
 char * next_token(char *seq){
     if(seq == NULL) return NULL;
     if(*seq == ','){
@@ -34,6 +44,10 @@ char * next_token(char *seq){
     return seq;
 }
 
+/**This function copies the current token(until a whitespace or end of line is reached).
+ * @param src: the start pointer, the source pointer.
+ * @param dest: the detination pointer.
+ * @return: dest.*/
 char * copy_token(char *src, char *dest){
     int i=0;
     if(src == NULL || dest == NULL) return dest;
@@ -51,6 +65,9 @@ char * copy_token(char *src, char *dest){
     return dest;
 }
 
+/**This function writes errors to stderr.
+ * The error type is determined by the error global variable.
+ * @param line_number: the line number of the error.*/
 void write_error(int line_number){
     fprintf(stderr, "ERROR (line %d): \n", line_number);
     switch(error){
@@ -115,12 +132,17 @@ void write_error(int line_number){
     }
 }
 
+/**This function checks if end of line is reached.
+ * @param line: the char pointer to check.
+ * @return: TRUE if reached, FALSE otherwise.*/
 int end_of_line(char *line)
 {
     return line == NULL || *line == '\0' || *line == '\n';
 }
 
-
+/**This function skips whitespaces.
+ * @param ptr: the char pointer to move.
+ * @return: the pointer after skipping whitespaces.*/
 char * skip_spaces(char *ptr){
     if(ptr == NULL) return ptr;
     while(isspace(*ptr))
@@ -128,23 +150,21 @@ char * skip_spaces(char *ptr){
     return ptr;
 }
 
+/**This function checks if the assembler should ignore the line.
+ * Should ignore if comment line (starts with ;) or blank line.
+ * @param line: the pointer to the start of a line.
+ * @return: TRUE if should be ignored, FALSE otherwise.*/
 int ignore_line(char *line){
     line = skip_spaces(line);
     return *line == ';' || *line == '\n' || *line == '\0';
 }
 
+/**This function inserts the field (ABSOLUTE, RELOCATABLE OR EXTERNAL) to an encoded word.
+ * @param word: the word to be modified (insert the field to).
+ * @param field: the field to insert (type enum fields converted to int).
+ * @return: the modified word.*/
 unsigned int insert_field(unsigned int word, int field){
     word <<= FIELD_BITS;
     word |= field;
     return word;
-}
-
-unsigned int dec_to_octal(unsigned int dec){
-    unsigned int octal = 0, i = 1;
-    while (dec != 0){
-        octal += (dec % OCTAL_BASE) * i;
-        dec /= OCTAL_BASE;
-        i *= 10;
-    }
-    return octal;
 }

@@ -1,6 +1,8 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+// This file implements the first-pass functions.
+//
 
 #include "first_pass.h"
 
@@ -10,7 +12,8 @@
 #include "info.h"
 #include "utility.h"
 
-/*This function reads a line from the file and manages all the first pass processing.*/
+/**This function reads a line from the file and manages all the first pass processing.
+ * @param fp: FILE pointer to the file to be processed.**/
 void first_pass(FILE* fp){
     char instruction[MAX_LINE] = "";
     int line_number = 1;
@@ -33,7 +36,8 @@ void first_pass(FILE* fp){
     update_label_table();
 }
 
-/*This function processes a line of the file, identifies it and sends to sub processing functions*/
+/**This function processes a line of the file, identifies its content and sends to sub processing functions.
+ * @param instruction: char pointer to the start of the line.**/
 void process_line(char* instruction){
     char token[MAX_LINE] = "";
 
@@ -67,7 +71,9 @@ void process_line(char* instruction){
     }
 }
 
-/*This function identifies all directives(.data, .string, .extern, .entry) and sends to the appropriate sub-functions to handle */
+/**This function identifies all directives(.data, .string, .extern, .entry)
+ * and sends to the appropriate sub-functions to handle.
+ * @param directive: char pointer to the directive.*/
 void handle_directive(char* directive){
     char token[MAX_LINE] = "";
     copy_token(directive,token);
@@ -92,7 +98,9 @@ void handle_directive(char* directive){
             break;
     }
 }
-/*This function handles the .data directive*/
+
+/**This function handles the .data directive.
+ * @param data: char pointer to the first variable declared in data.*/
 void handle_data(char *data){
     char token[MAX_LINE] = "";
     copy_token(data,token);
@@ -128,8 +136,9 @@ void handle_data(char *data){
     }
 }
 
-/*This function checks for the validity of a string (@*num) that should represent an integer.
- * If the the number is valid returns TRUE, FALSE otherwise.*/
+/**This function checks for the validity of a string that should represent an integer.
+ * @param num: char pointer to the string.
+ * @return: TRUE If the the number is valid , FALSE otherwise.*/
 int check_number_validity(char *num){
     if(*num == '-' || *num == '+')
         num++;
@@ -143,14 +152,16 @@ int check_number_validity(char *num){
     return TRUE;
 }
 
-/*This function converts the .data integers and .string strings (@num) into unsigned int and
- * writes them into the data array to be outputted in the .ob file*/
+/**This function converts the .data integers and .string strings into unsigned int and
+ * writes them into the data array to be outputted in the .ob file.
+ * @param num: the integer to be written to data[].*/
 void write_to_data(int num){
     data[dc++] = (unsigned int) num;
 }
 
-/*This function handles the .string directive*/
-void handle_string(char * string){
+/**This function handles the .string directive.
+ * @param string: is a char pointer to a string declared in .string directive.*/
+void handle_string(char *string){
     if(*string != '"'){
         error = STRING_SYNTAX_ERROR;
         return;
@@ -168,8 +179,9 @@ void handle_string(char * string){
     write_to_data(0);
 }
 
-/*this function handles the .extern directive. Adds it to the label_table Linked-list*/
-void handle_extern(char * label){
+/**This function handles the .extern directive. Adds it to the label_table Linked-list.
+ * @param label: is the label (char pointer) declared as extern.*/
+void handle_extern(char *label){
     extern_flag = TRUE;
     if(is_label(label,FALSE)){
         if(isspace(label[strlen(label)-1]))
@@ -178,7 +190,8 @@ void handle_extern(char * label){
     }
 }
 
-/*This function handels all labels and ads them to the label tabel*/
+/**This function handles all labels and ads them to the label table.
+ * @param instruction: is a char pointer to the start of the label.*/
 void handle_label(char* instruction){
     char label[MAX_LINE] = "";
     char token[MAX_LINE] = "";
@@ -207,8 +220,8 @@ void handle_label(char* instruction){
     }
 }
 
-/*This functions checks whether the given string is a label and for its validity.
- * (@colon is a boolean to know if the label should end with a colon.)*/
+/**This functions checks whether the given string is a label and for its validity.
+ * @param colon: is a boolean to indicate if the label should end with a colon.*/
 int is_label(char * token, int colon){
     int i = 0;
     char tmp[MAX_LINE] = ".";
@@ -238,7 +251,7 @@ int is_label(char * token, int colon){
         error = LABEL_CONFLICTING_NAME;
         return FALSE;
     }
-    strcat(tmp,token);
+    strcat(tmp,token); //append a '.' at the begging of the string to check if its a directive.
     if(find_directive(tmp) != UNKNOWN_DIRECTIVE){
         error = LABEL_CONFLICTING_NAME;
         return FALSE;
@@ -254,7 +267,8 @@ int is_label(char * token, int colon){
     return TRUE;
 }
 
-/*This function handles all operations (mov, add, etc.)*/
+/**This function handles all operations (mov, add, etc.)
+ * @param operation: the operation string excluding a label.*/
 void handle_operation(char* operation){
     char command[MAX_LINE] = "";
     int num_of_operands;
@@ -266,19 +280,20 @@ void handle_operation(char* operation){
     num_of_operands = number_of_operands(find_operation(command));
 
     if(!num_of_operands && end_of_line(next_token(operation))){ //if expects no operands (like stop operation).
+
         code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
     }
-    if(num_of_operands && end_of_line(operation)){
+    if(num_of_operands && end_of_line(operation)){ //too little operands
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
     if(num_of_operands){
-        copy_token(operation,first_op);
+        copy_token(operation,first_op); //first_op <- first operand.
         num_of_operands--;
-    }else if(!end_of_line(operation)){
+    }else if(!end_of_line(operation)){ //too many operands
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
@@ -293,11 +308,11 @@ void handle_operation(char* operation){
     }
 
     operation = next_token(operation); //operation -> comma
-    if(operation == NULL && num_of_operands){
+    if(operation == NULL && num_of_operands){ //too little operands
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(*operation != ',' && !end_of_line(operation)){
+    if(*operation != ',' && !end_of_line(operation)){ //missing comma
         error = MISSING_COMMA_OPERATION;
         return;
     }
@@ -305,14 +320,14 @@ void handle_operation(char* operation){
     operation = next_token(operation); //operation -> second operator
 
     if(num_of_operands){
-        copy_token(operation, second_op);
+        copy_token(operation, second_op); //second_op <- second operand.
         num_of_operands--;
-    }else if(!end_of_line(operation)){
+    }else if(!end_of_line(operation)){ //too many operands
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
-    if(!num_of_operands && !end_of_line(next_token(operation))){
+    if(!num_of_operands && !end_of_line(next_token(operation))){ //too many operands
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
@@ -327,8 +342,14 @@ void handle_operation(char* operation){
     ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
 }
 
-/*This function encodes into the code array (to be outputted in the .ob file)
- * an unsigned int that is the code of the first words of an operation (mov, add, etc.).*/
+/**This function encodes into the code array (to be outputted in the .ob file)
+ * an unsigned int that is the code of the first words of an operation (mov, add, etc.).
+ * @param opcode: the operation opcode.
+ * @param src: boolean to indicate source operand.
+ * @param dest: boolean to indicate destination operand.
+ * @param src_method: source-operand addressing method(methods enum is casted to int).
+ * @param dest_method: dest-operand addressing method(methods enum is casted to int).
+ * @return: encoded word(unsigned int).*/
 unsigned int encode_first_word(int opcode, int src, int dest, int src_method, int dest_method){
     unsigned int word = 0;
     word = opcode;
@@ -342,9 +363,12 @@ unsigned int encode_first_word(int opcode, int src, int dest, int src_method, in
     return word;
 }
 
-/*This function checks for the validity of the operands (@source_method, @dest_method) in the operation (@type).
+/**This function checks for the validity of the operands in the operation.
  * (the addressing methods: immediate, direct, indirect register amd register).
- * Returns TRUE if valid, FALSE otherwise.*/
+ * @param src_method: the source-operand addressing method.
+ * @param dest_method: the destination-operand addressing method.
+ * @param type: the operation.
+ * @return: TRUE if valid, FALSE otherwise.*/
 int operand_valid_method(operations type, methods source_method, methods dest_method){
     /*
      * 0: IMMEDIATE
@@ -425,7 +449,8 @@ int operand_valid_method(operations type, methods source_method, methods dest_me
     }
 }
 
-/*This function returns the number of operands an operation (@type) accepts.*/
+/**This function returns the number of operands an operation accepts.
+ * @param type: the operation type.*/
 int number_of_operands(operations type){
     switch(type){
         case MOV:
@@ -454,10 +479,10 @@ int number_of_operands(operations type){
     return 0;
 }
 
-/*This function calculate additional words the operation needs in the RAM to increment ic.
- * @type is the operation type (mov, add, etc.)
- * @src_method is the source's addressing method.
- * @dest_method is the destenation's addressing method.*/
+/**This function calculate additional words the operation needs in the RAM to increment ic.
+ * @param type: the operation type (mov, add, etc.).
+ * @param src_method: the source-operand addressing method.
+ * @param dest_method: the destination-operand addressing method.*/
 int calculate_additional_words(operations type, methods src_method, methods dest_method){
     int words = 1, register_flag = FALSE;
     if(src_method == METHOD_IMMEDIATE || src_method == METHOD_DIRECT)
@@ -473,14 +498,14 @@ int calculate_additional_words(operations type, methods src_method, methods dest
     return words;
 }
 
-/*This function checks if the total words that have been encoded so far exceeds the RAM size (4096).
- * Returns TRUE if it does, FALSE otherwise.*/
+/**This function checks if the total words that have been encoded so far exceeds the RAM size (MACHINE_RAM: 4096).
+ * @return: TRUE if it does, FALSE otherwise.*/
 int overflow(){
     return ic+dc>MACHINE_RAM;
 }
 
-/*This function checks if an error has been detected in the last line that was processed.
- * Returns TRUE if it has, FALSE otherwise.*/
+/**This function checks if an error has been detected in the last line that was processed.
+ * @return: TRUE if it has, FALSE otherwise.*/
 int is_error(){
     if(error == NO_ERR)
         return FALSE;

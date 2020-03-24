@@ -1,6 +1,8 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+// This file implements the second-pass functions.
+//
 
 #include "second_pass.h"
 
@@ -11,6 +13,8 @@
 #include "first_pass.h"
 #include "utility.h"
 
+/** This function reads a line from the file and manages all the second pass processing.
+ * @param fp: FILE pointer to the file to be processed.*/
 void second_pass(FILE * fp, char *filename){
     char instruction[MAX_LINE] = "";
     int line_number = 1;
@@ -30,6 +34,8 @@ void second_pass(FILE * fp, char *filename){
         build_output_files(filename);
 }
 
+/** This function processes a line of the file, identifies its content and sends to sub processing functions.
+ * @param instruction: char pointer to the start of the line.**/
 void process_line_second_pass(char * instruction){
     char token[MAX_LINE] = "";
     instruction = skip_spaces(instruction);
@@ -57,13 +63,18 @@ void process_line_second_pass(char * instruction){
         return;
 }
 
+/** This function handles the .entry directive.
+ * Sets the label's entry field to TRUE.
+ * @param label: the name of the entry-declared label.*/
 void handle_entry(char * label){
     set_entry(label);
 }
 
+/** This function handles the encoding of code words and writing them into the appropriate cell in the code array.
+ * @param instruction: char pointer to the start of an operation line (past any labels).
+ * @param type: is the operation type (enum operations)*/
 void handle_encoding(char *instruction, operations type){
     char first_op[20] = "", second_op[20] = "";
-    unsigned int word;
     switch(number_of_operands(type)){
         case 0:
             ic++;
@@ -88,9 +99,14 @@ void handle_encoding(char *instruction, operations type){
     }
 }
 
+/**This function encodes the the immediate operand words (represented by #).
+ * (only immediate or direct methods).
+ * (First word wsa already encoded in the first pass).
+ * @param operand: the operand to be encoded.
+ * @param dest: a boolean to indicate if the operand is a destination operand (FALSE if source operand).
+ * @return: the encoded word (unsigned int).*/
 unsigned int encode_word(char *operand, int dest){
     unsigned int word =0;
-    unsigned int tmp=0;
     switch (find_method(operand)){
         case METHOD_IMMEDIATE:
             word |= atoi(++operand);
@@ -116,6 +132,10 @@ unsigned int encode_word(char *operand, int dest){
     return word;
 }
 
+/**This function encodes the register operand words (indirect register or register methods).
+ * @param reg1: is a char pointer to the first(operand) register.
+ * @param reg2: is a char pointer to the second(operand) register (if there isn't one than NULL is accepted).
+ * @return: the encoded word (unsigned int).*/
 unsigned int encode_word_registers(char *reg1, char *reg2, fields field){
     unsigned int word = 0;
     word |= find_register(reg1);
@@ -125,6 +145,9 @@ unsigned int encode_word_registers(char *reg1, char *reg2, fields field){
     return word;
 }
 
+/**This function finds the number of the desired register (r0-r7).
+ * @param reg: is a char pointer to the register.
+ * @return: the number of the register(0-7)*/
 int find_register(char *reg){
     if(reg == NULL)
         return 0;
@@ -134,6 +157,9 @@ int find_register(char *reg){
         return atoi(++reg);
 }
 
+/**This function encodes direct operand words (labels).
+ * @param label: the label name.
+ * @return: the encoded word (unsigned int).*/
 unsigned int encode_label(char *label){
     unsigned int word = 0;
     int address;
@@ -148,7 +174,8 @@ unsigned int encode_label(char *label){
     return word;
 }
 
-
+/**This function handles writing the output .ob, .ext and .ent files.
+ * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_output_files(char *filename){
     build_object_file(filename);
     if(extern_flag)
@@ -157,25 +184,27 @@ void build_output_files(char *filename){
         build_entry_file(filename);
 }
 
+/**This function writes the object file using the code and data arrays.
+ * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_object_file(char *filename){
     int line=STARTING_OFFSET;
     int count=0;
     char tmp[MAX_LINE];
     char *p;
-    filename = add_extension(filename,".ob",EXTENSION_LENGTH3);
+    filename = add_extension(filename,".ob");
     FILE *fp = fopen(filename, "w");
     fprintf(fp, "   %d %d\n",ic,dc);
     while(ic--){
         p=tmp;
-        snprintf(tmp, MAX_LINE, "%05ho", code[count++]);
-        p += strlen(tmp)-5;
+        snprintf(tmp, MAX_LINE, "%05ho", code[count++]); //convert to octal base and store in tmp
+        p += strlen(tmp)-CODE_SIZE; //point to the last 5 characters.
         fprintf(fp,"%04d  %.5s\n",line++,p);
     }
     count=0;
     while(dc--){
         p=tmp;
-        snprintf(tmp, MAX_LINE,"%05ho", data[count++]);
-        p += strlen(tmp)-5;
+        snprintf(tmp, MAX_LINE,"%05ho", data[count++]); //convert to octal base and store in tmp
+        p += strlen(tmp)-CODE_SIZE; //point to the last 5 characters.
         fprintf(fp, "%04d  %.5s\n",line++,p);
     }
     printf("%s was created.\n",filename);
@@ -183,10 +212,12 @@ void build_object_file(char *filename){
     fclose(fp);
 }
 
+/**This function writes the .ext output file.
+ * This is done using the linked list of the external labels (extern_table_head) declaration and usage in the .as file.
+ * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_extern_file(char *filename){
-
     label_table *p = extern_table_head;
-    filename = add_extension(filename,".ext",EXTENSION_LENGTH4);
+    filename = add_extension(filename,".ext");
     FILE *fp = fopen(filename, "w");
     while(p != NULL){
         fprintf(fp,"%s\t%05d\n",p->label,p->address);
@@ -197,9 +228,12 @@ void build_extern_file(char *filename){
     fclose(fp);
 }
 
+/**This file writes the .ent output file.
+ * This is done using the table_head linked list and the entry boolean field in each node.
+ * @param filename: is the base filename (without the extension) of the original .as file.*/
 void build_entry_file(char *filename){
     label_table *p = table_head;
-    filename = add_extension(filename,".ent",EXTENSION_LENGTH4);
+    filename = add_extension(filename,".ent");
     FILE *fp = fopen(filename, "w");
     while(p!=NULL){
         if(p->entry)

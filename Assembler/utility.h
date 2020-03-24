@@ -1,11 +1,14 @@
 //
 // Created by Tomer Goodovitch on 01/03/2020.
 //
+// This is the header file for utility.c
+// It declares prototypes of functions.
+//
 
 #ifndef ASSEMBLER_UTILITY_H
 #define ASSEMBLER_UTILITY_H
 
-char * add_extension(char *filename, char* extension, int length);
+char * add_extension(char *filename, char* extension);
 
 char *next_token(char *seq);
 
@@ -21,5 +24,4 @@ int ignore_line (char * line);
 
 unsigned int insert_field(unsigned int word, int field);
 
-unsigned int dec_to_octal(unsigned int dec);
 #endif //ASSEMBLER_UTILITY_H
