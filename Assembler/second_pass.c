@@ -112,7 +112,7 @@ unsigned int encode_word(char *operand, int dest){
     switch (find_method(operand)){
         case METHOD_IMMEDIATE:
             ++operand;
-            if(atoi(operand)>IMMEDIATE_MIN&&atoi(operand)<IMMEDIATE_MAX){
+            if(atoi(operand)>=IMMEDIATE_MIN&&atoi(operand)<=IMMEDIATE_MAX){
                 word |= atoi(operand);
                 word = insert_field(word, ABSOLUTE);
                 return word;

@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.c
+/home/tomer/Desktop/University/Assembler/dictionaries.c
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 string.h
 -
 stdlib.h
@@ -16,39 +16,41 @@ stdlib.h
 ctype.h
 -
 utility.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.c
+/home/tomer/Desktop/University/Assembler/first_pass.c
 first_pass.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+/home/tomer/Desktop/University/Assembler/first_pass.h
 stdlib.h
 -
 ctype.h
 -
 string.h
 -
+limits.h
+-
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 utility.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+/home/tomer/Desktop/University/Assembler/first_pass.h
 stdio.h
 -
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 label_table.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.c
+/home/tomer/Desktop/University/Assembler/label_table.c
 label_table.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
 stdio.h
 -
 stdlib.h
@@ -58,33 +60,33 @@ stdarg.h
 string.h
 -
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/main.c
+/home/tomer/Desktop/University/Assembler/main.c
 stdio.h
 -
 stdlib.h
 -
 utility.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 first_pass.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+/home/tomer/Desktop/University/Assembler/first_pass.h
 second_pass.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
+/home/tomer/Desktop/University/Assembler/second_pass.h
 label_table.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.c
+/home/tomer/Desktop/University/Assembler/second_pass.c
 second_pass.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
+/home/tomer/Desktop/University/Assembler/second_pass.h
 stdlib.h
 -
 ctype.h
@@ -92,23 +94,23 @@ ctype.h
 string.h
 -
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 first_pass.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/first_pass.h
+/home/tomer/Desktop/University/Assembler/first_pass.h
 utility.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/second_pass.h
+/home/tomer/Desktop/University/Assembler/second_pass.h
 stdio.h
 -
 label_table.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/label_table.h
+/home/tomer/Desktop/University/Assembler/label_table.h
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.c
+/home/tomer/Desktop/University/Assembler/utility.c
 utility.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 stdio.h
 -
 stdlib.h
@@ -118,9 +120,9 @@ string.h
 ctype.h
 -
 info.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/info.h
+/home/tomer/Desktop/University/Assembler/info.h
 dictionaries.h
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/dictionaries.h
+/home/tomer/Desktop/University/Assembler/dictionaries.h
 
-C:/Users/Tomer Goodovitch/Desktop/Systems-Programming-Lab-C/Assembler/utility.h
+/home/tomer/Desktop/University/Assembler/utility.h
 

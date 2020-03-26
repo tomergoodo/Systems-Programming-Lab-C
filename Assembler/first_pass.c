@@ -114,7 +114,7 @@ void handle_data(char *data){
             error = DATA_SYNTAX_ERROR;
             return;
         }
-        else if(atoi(token)>SHRT_MIN&&atoi(token)<SHRT_MAX){
+        else if(atoi(token)>=SHRT_MIN&&atoi(token)<=SHRT_MAX){
             write_to_data(atoi(token));
         } else{
             error = DATA_INT_OVERFLOW;
