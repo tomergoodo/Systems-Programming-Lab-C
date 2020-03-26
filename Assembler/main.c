@@ -58,6 +58,7 @@ void handle_file(char * filename){
         fprintf(stderr, "File %s was not found\n", filename);
         return;
     }
+    printf("--------------------------------------------------------------------------------------\n");
     printf("\nStarting %s processing\n",filename);
     first_pass(fp);
     if(!error_flag){
@@ -65,12 +66,12 @@ void handle_file(char * filename){
         rewind(fp);
         second_pass(fp, filename);
         if(!error_flag){
-            printf("Finished %s second-pass processing successfully\n\n",filename);
+            printf("\nFinished %s second-pass processing successfully\n\n",filename);
         } else
-            printf("Finished %s second-pass processing. Errors have been detected.\n\n",filename);
+            printf("\n\nFinished %s second-pass processing. Errors have been detected.\n\n",filename);
     }
     else
-        printf("Finished %s first-pass processing. Errors have been detected.\n\n",filename);
+        printf("\n\nFinished %s first-pass processing. Errors have been detected.\n\n",filename);
     free_list(&table_head);
     free_list(&extern_table_head);
     fclose(fp);

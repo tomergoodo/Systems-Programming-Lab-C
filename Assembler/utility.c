@@ -140,7 +140,6 @@ void write_error(int line_number){
         case LABEL_NOT_FOUND:
             fprintf(stderr, "Label was not declared in file.\n");
             break;
-
     }
 }
 

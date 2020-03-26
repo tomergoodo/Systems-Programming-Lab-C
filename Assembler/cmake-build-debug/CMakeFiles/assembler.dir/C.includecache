@@ -6,37 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/tomer/Desktop/University/Assembler/dictionaries.c
-dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
-string.h
--
-stdlib.h
--
-ctype.h
--
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
-
 /home/tomer/Desktop/University/Assembler/dictionaries.h
 info.h
 /home/tomer/Desktop/University/Assembler/info.h
-
-/home/tomer/Desktop/University/Assembler/first_pass.c
-first_pass.h
-/home/tomer/Desktop/University/Assembler/first_pass.h
-stdlib.h
--
-ctype.h
--
-string.h
--
-limits.h
--
-info.h
-/home/tomer/Desktop/University/Assembler/info.h
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
 
 /home/tomer/Desktop/University/Assembler/first_pass.h
 stdio.h
@@ -47,20 +19,6 @@ label_table.h
 /home/tomer/Desktop/University/Assembler/label_table.h
 
 /home/tomer/Desktop/University/Assembler/info.h
-
-/home/tomer/Desktop/University/Assembler/label_table.c
-label_table.h
-/home/tomer/Desktop/University/Assembler/label_table.h
-stdio.h
--
-stdlib.h
--
-stdarg.h
--
-string.h
--
-dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
 
 /home/tomer/Desktop/University/Assembler/label_table.h
 info.h
@@ -84,43 +42,11 @@ second_pass.h
 label_table.h
 /home/tomer/Desktop/University/Assembler/label_table.h
 
-/home/tomer/Desktop/University/Assembler/second_pass.c
-second_pass.h
-/home/tomer/Desktop/University/Assembler/second_pass.h
-stdlib.h
--
-ctype.h
--
-string.h
--
-info.h
-/home/tomer/Desktop/University/Assembler/info.h
-first_pass.h
-/home/tomer/Desktop/University/Assembler/first_pass.h
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
-
 /home/tomer/Desktop/University/Assembler/second_pass.h
 stdio.h
 -
 label_table.h
 /home/tomer/Desktop/University/Assembler/label_table.h
-dictionaries.h
-/home/tomer/Desktop/University/Assembler/dictionaries.h
-
-/home/tomer/Desktop/University/Assembler/utility.c
-utility.h
-/home/tomer/Desktop/University/Assembler/utility.h
-stdio.h
--
-stdlib.h
--
-string.h
--
-ctype.h
--
-info.h
-/home/tomer/Desktop/University/Assembler/info.h
 dictionaries.h
 /home/tomer/Desktop/University/Assembler/dictionaries.h
 

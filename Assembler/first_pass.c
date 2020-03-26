@@ -516,6 +516,11 @@ int overflow(){
 int is_error(){
     if(error == NO_ERR)
         return FALSE;
+    if(!error_flag){
+        fprintf(stderr,"\n\n");
+        fprintf(stderr,"--------------------------------------------------------------------------------------\n");
+        fprintf(stderr,"\n\n");
+    }
     error_flag = TRUE;
     return TRUE;
 }
