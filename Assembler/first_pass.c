@@ -179,6 +179,9 @@ void handle_string(char *string){
         write_to_data((int) *string);
         string++;
     }
+    if(!end_of_line(++string)||!end_of_line(next_token(string))){
+        error = NUMBER_OF_STRINGS_ERROR;
+    }
     write_to_data(0);
 }
 

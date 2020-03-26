@@ -116,6 +116,9 @@ void write_error(int line_number){
         case STRING_SYNTAX_ERROR:
             fprintf(stderr, "Strings must start and end with %c.\n",'"');
             break;
+        case NUMBER_OF_STRINGS_ERROR:
+            fprintf(stderr, "String directive accepts only one parameter.\n");
+            break;
         case MISSING_COMMA_OPERATION:
             fprintf(stderr, "Operands must be separated with commas.\n");
             break;
