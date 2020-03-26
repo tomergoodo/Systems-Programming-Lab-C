@@ -107,6 +107,9 @@ void write_error(int line_number){
         case DATA_SYNTAX_ERROR:
             fprintf(stderr, "Data variables must be integers.\n");
             break;
+        case DATA_INT_OVERFLOW:
+            fprintf(stderr, "Data variables must be between -2^15 and 2^15.\n");
+            break;
         case MISSING_COMMA_DATA:
             fprintf(stderr, "Data variables must be separated with commas.\n");
             break;
@@ -121,6 +124,9 @@ void write_error(int line_number){
             break;
         case NUMBER_OF_OPERANDS_ERROR:
             fprintf(stderr, "Incorrect number of operands.\n");
+            break;
+        case IMMEDIATE_INT_OVERFLOW:
+            fprintf(stderr, "Immediate variables must be between -2^12 and 2^12.\n");
             break;
         case METHOD_UNKNOWN_ERROR:
             fprintf(stderr, "Unrecognized addressing method.\n");

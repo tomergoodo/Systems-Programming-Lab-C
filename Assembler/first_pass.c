@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <limits.h>
 #include "info.h"
 #include "utility.h"
 
@@ -113,8 +114,11 @@ void handle_data(char *data){
             error = DATA_SYNTAX_ERROR;
             return;
         }
-        else{
+        else if(atoi(token)>SHRT_MIN&&atoi(token)<SHRT_MAX){
             write_to_data(atoi(token));
+        } else{
+            error = DATA_INT_OVERFLOW;
+            return;
         }
 
         data = next_token(data);
@@ -272,30 +276,30 @@ void handle_operation(char* operation){
     int num_of_operands;
     char first_op[20] = "",second_op[20] = "";
 
-    copy_token(operation,command); /*get command*/
-    operation = next_token(operation); /*operation -> first operator*/
+    copy_token(operation,command); /**get command*/
+    operation = next_token(operation); /**operation -> first operator*/
 
     num_of_operands = number_of_operands(find_operation(command));
 
-    if(!num_of_operands && end_of_line(next_token(operation))){ /*if expects no operands (like stop operation).*/
+    if(!num_of_operands && end_of_line(next_token(operation))){ /**if expects no operands (like stop operation).*/
 
         code[ic] = encode_first_word(find_operation(command), FALSE, FALSE, 0, 0);
         ic += calculate_additional_words(find_operation(command), NONE, NONE);
         return;
     }
-    if(num_of_operands && end_of_line(operation)){ /*too little operands*/
+    if(num_of_operands && end_of_line(operation)){ /**too little operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
     if(num_of_operands){
-        copy_token(operation,first_op); /*first_op <- first operand.*/
+        copy_token(operation,first_op); /**first_op <- first operand.*/
         num_of_operands--;
-    }else if(!end_of_line(operation)){ /*too many operands*/
+    }else if(!end_of_line(operation)){ /**too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(!num_of_operands && end_of_line(next_token(operation))){ /*if expects one operand (like jmp operation).*/
+    if(!num_of_operands && end_of_line(next_token(operation))){ /**if expects one operand (like jmp operation).*/
         if(!operand_valid_method(find_operation(command), NONE, find_method(first_op))){
             error = ADDRESS_METHOD_ERROR;
             return;
@@ -305,27 +309,27 @@ void handle_operation(char* operation){
         return;
     }
 
-    operation = next_token(operation); /*operation -> comma*/
-    if(operation == NULL && num_of_operands){ /*too little operands*/
+    operation = next_token(operation); /**operation -> comma*/
+    if(operation == NULL && num_of_operands){ /**too little operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
-    if(*operation != ',' && !end_of_line(operation)){ /*missing comma*/
+    if(*operation != ',' && !end_of_line(operation)){ /**missing comma*/
         error = MISSING_COMMA_OPERATION;
         return;
     }
 
-    operation = next_token(operation); /*operation -> second operator*/
+    operation = next_token(operation); /**operation -> second operator*/
 
     if(num_of_operands){
-        copy_token(operation, second_op); /*second_op <- second operand.*/
+        copy_token(operation, second_op); /**second_op <- second operand.*/
         num_of_operands--;
-    }else if(!end_of_line(operation)){ /*too many operands*/
+    }else if(!end_of_line(operation)){ /**too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
 
-    if(!num_of_operands && !end_of_line(next_token(operation))){ /*too many operands*/
+    if(!num_of_operands && !end_of_line(next_token(operation))){ /**too many operands*/
         error = NUMBER_OF_OPERANDS_ERROR;
         return;
     }
@@ -334,9 +338,9 @@ void handle_operation(char* operation){
         error = ADDRESS_METHOD_ERROR;
         return;
     }
-    /*encodes the first word into code[]*/
+    /**encodes the first word into code[]*/
     code[ic] = encode_first_word(find_operation(command), TRUE, TRUE, find_method(first_op),find_method(second_op));
-    /*increments ic by calculate_additional_words()*/
+    /**increments ic by calculate_additional_words()*/
     ic += calculate_additional_words(find_operation(command), find_method(first_op), find_method(second_op));
 }
 

@@ -38,7 +38,8 @@
 /*Registers go from 0-7*/
 #define MIN_REGISTER 0
 #define MAX_REGISTER 7
-
+#define IMMEDIATE_MIN -4096
+#define IMMEDIATE_MAX 4095
 /**-----------------------------------misc-----------------------------------*/
 #define CODE_SIZE 5
 #define NOT_FOUND -1

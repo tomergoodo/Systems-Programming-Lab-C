@@ -100,9 +100,10 @@ void handle_encoding(char *instruction, operations type){
     }
 }
 
-/**This function encodes the the immediate operand words (represented by #).
- * (only immediate or direct methods).
- * (First word wsa already encoded in the first pass).
+/**This function handles word encoding.
+ * The immediate operand words(represented by #) are encoded in this function
+ * while other methods are send to be encoded in sub functions.
+ * (First word was already encoded in the first pass).
  * @param operand: the operand to be encoded.
  * @param dest: a boolean to indicate if the operand is a destination operand (FALSE if source operand).
  * @return: the encoded word (unsigned int).*/
@@ -110,8 +111,13 @@ unsigned int encode_word(char *operand, int dest){
     unsigned int word =0;
     switch (find_method(operand)){
         case METHOD_IMMEDIATE:
-            word |= atoi(++operand);
-            word = insert_field(word, ABSOLUTE);
+            ++operand;
+            if(atoi(operand)>IMMEDIATE_MIN&&atoi(operand)<IMMEDIATE_MAX){
+                word |= atoi(operand);
+                word = insert_field(word, ABSOLUTE);
+                return word;
+            }
+            error = IMMEDIATE_INT_OVERFLOW;
             return word;
         case METHOD_DIRECT:
             if(find_label(operand) == NULL){
